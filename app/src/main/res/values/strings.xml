@@ -10,4 +10,5 @@
     <string name="title_passwordConfirm">Password Confirm</string>
     <string name="hint_passwordConfirm">Please Again...</string>
     <string name="button_signup">Sign Up</string>
+    <string name="alert_title">Warning</string>
 </resources>
