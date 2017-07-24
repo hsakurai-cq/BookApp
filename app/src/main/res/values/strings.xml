@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Book App</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="hint_email">Enter your email...</string>
+    <string name="hint_password">Enter your password...</string>
+    <string name="button_login">Login</string>
+    <string name="title_toolbar">Login</string>
 </resources>
