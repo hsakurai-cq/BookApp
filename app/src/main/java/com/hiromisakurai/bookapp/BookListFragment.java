@@ -1,25 +1,20 @@
 package com.hiromisakurai.bookapp;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class BookListFragment extends Fragment {
-
-
-
-    String names[] = {"hiromi", "sakurai", "mariko", "etsuko", "hideo", "yosinobu", "hiromo", "isao"};
-
 
     public BookListFragment() {
         // Required empty public constructor
@@ -38,7 +33,15 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         ListView listView = view.findViewById(R.id.list_book);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, names);
+
+        ArrayList<Book> listItems = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            Book book = new Book(bmp, "Book title No. " + String.valueOf(i), "book price " + String.valueOf(i), "2017-07- 0" + String.valueOf(i));
+            listItems.add(book);
+        }
+
+        CustomBookListAdapter adapter = new CustomBookListAdapter(this.getContext(), R.layout.custom_book_list, listItems);
         listView.setAdapter(adapter);
     }
 
