@@ -35,4 +35,5 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return tabTitles.get(position);
     }
+
 }
