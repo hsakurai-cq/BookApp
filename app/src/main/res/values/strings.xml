@@ -14,4 +14,11 @@
 
     <string name="book_list_fragment">Book List fragment</string>
     <string name="setting_fragment">Setting fragment</string>
+    <string name="toolbar_add_title">Add Book</string>
+    <string name="toolbar_button_back">Back</string>
+    <string name="button_setImage">SET IMAGE</string>
+    <string name="book_title">Title</string>
+    <string name="book_price">Price</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="button_save">Save</string>
 </resources>
