@@ -1,5 +1,6 @@
 package com.hiromisakurai.bookapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -42,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         tabLayout.setupWithViewPager(viewPager);
+
+        Button button = (Button) findViewById(R.id.button_add);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), AddBookActivity.class);
+                startActivity(intent);
+            }
+
+        });
 
     }
 }

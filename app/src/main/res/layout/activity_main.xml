@@ -18,16 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:text="@string/toolbar_title_list"
             android:textColor="#FFFFFF"
-            android:textSize="20dp"
-            android:text="Book List" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/button_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Add" />
+            android:layout_gravity="end"
+            android:text="@string/button_add" />
 
 
 
@@ -36,7 +36,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="384dp"
-        android:layout_height="567dp"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/darker_gray" />
 
