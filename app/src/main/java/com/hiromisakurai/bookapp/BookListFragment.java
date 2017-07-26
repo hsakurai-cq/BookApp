@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ public class BookListFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.list_book);
 
+
         ArrayList<Book> listItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
@@ -48,14 +48,10 @@ public class BookListFragment extends Fragment {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Log.i("position ", String.valueOf(position));
-
+                //Log.i("position ", String.valueOf(position));
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                Fragment edit = new EditBookFragment();
-                transaction.replace(R.id.detail_container, edit);
-                ListView list = (ListView)view.findViewById(R.id.list_book);
-                list.setVisibility(View.GONE);
+                EditBookFragment edit = new EditBookFragment();
+                transaction.replace(R.id.fragment_container, edit);
 
                 transaction.addToBackStack(null);
                 transaction.commit();
