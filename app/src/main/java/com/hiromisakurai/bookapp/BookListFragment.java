@@ -55,7 +55,7 @@ public class BookListFragment extends Fragment {
                 Book book = (Book)listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-//                bundle.putParcelable("image", book.getBookImage());
+                bundle.putParcelable("image", book.getBookImage());
                 bundle.putString("title", book.getBookTitle());
                 bundle.putString("price", book.getBookPrice());
                 bundle.putString("purchaseDate", book.getPurchaseDate());

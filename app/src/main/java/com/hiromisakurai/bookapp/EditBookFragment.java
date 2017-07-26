@@ -1,14 +1,19 @@
 package com.hiromisakurai.bookapp;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import static com.hiromisakurai.bookapp.R.id.bookImage;
 
 public class EditBookFragment extends Fragment {
 
@@ -32,15 +37,19 @@ public class EditBookFragment extends Fragment {
         button.setText(R.string.toolbar_button_save);
 
         Bundle bundle = getArguments();
+        Bitmap img = bundle.getParcelable("image");
+        Log.i("image bitmap", String.valueOf(img));
         String title = bundle.getString("title");
         String price = bundle.getString("price");
         String purchaseDate = bundle.getString("purchaseDate");
+        ImageView iv = (ImageView)view.findViewById(bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
         EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
         EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
+        iv.setImageBitmap(img);
         titleEdit.setText(title);
         priceEdit.setText(price);
         dateEdit.setText(purchaseDate);
-        //Log.i("edit fragment title ", title);
+
     }
 }
