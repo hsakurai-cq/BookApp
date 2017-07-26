@@ -23,7 +23,9 @@
     <string name="toolbar_button_save">Save</string>
     <string name="button_add">Add</string>
     <string name="toolbar_title_list">Book List</string>
+    <string name="toolbar_title_setting">Setting</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_title_book">BOOK</string>
+    <string name="menu_title_setting">SETTING</string>
 </resources>
