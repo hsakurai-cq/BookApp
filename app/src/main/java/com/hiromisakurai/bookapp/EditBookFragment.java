@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class EditBookFragment extends Fragment {
@@ -25,13 +26,21 @@ public class EditBookFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView title = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
+        TextView toolBarTitle = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
         Button button = (Button)getActivity().findViewById(R.id.button_add);
-        title.setText(R.string.toolbar_title_edit);
+        toolBarTitle.setText(R.string.toolbar_title_edit);
         button.setText(R.string.toolbar_button_save);
+
+        Bundle bundle = getArguments();
+        String title = bundle.getString("title");
+        String price = bundle.getString("price");
+        String purchaseDate = bundle.getString("purchaseDate");
+        EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
+        EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
+        EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
+        titleEdit.setText(title);
+        priceEdit.setText(price);
+        dateEdit.setText(purchaseDate);
+        //Log.i("edit fragment title ", title);
     }
-//    public static EditBookFragment newInstance(int position) {
-//        EditBookFragment fragment = new EditBookFragment();
-//
-//    }
 }

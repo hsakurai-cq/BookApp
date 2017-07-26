@@ -51,6 +51,15 @@ public class BookListFragment extends Fragment {
                 //Log.i("position ", String.valueOf(position));
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 EditBookFragment edit = new EditBookFragment();
+                ListView listView = (ListView)parent;
+                Book book = (Book)listView.getItemAtPosition(position);
+
+                Bundle bundle = new Bundle();
+//                bundle.putParcelable("image", book.getBookImage());
+                bundle.putString("title", book.getBookTitle());
+                bundle.putString("price", book.getBookPrice());
+                bundle.putString("purchaseDate", book.getPurchaseDate());
+                edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
 
                 transaction.addToBackStack(null);
