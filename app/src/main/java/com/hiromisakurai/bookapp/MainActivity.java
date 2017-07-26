@@ -2,47 +2,52 @@ package com.hiromisakurai.bookapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
-    ViewPagerAdapter viewPagerAdapter;
+    public void switchFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_book:
+                    BookListFragment bookListFragment = new BookListFragment();
+                    switchFragment(bookListFragment);
+                    return true;
+                case R.id.menu_setting:
+                    SettingFragment settingFragment = new SettingFragment();
+                    switchFragment(settingFragment);
+                    return true;
+            }
+            return true;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragments(new BookListFragment(), "Book List");
-        viewPagerAdapter.addFragments(new SettingFragment(), "Setting");
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                //Log.i("page selected", String.valueOf(position));
-                TextView title = (TextView) findViewById(R.id.toolbar_main_title);
-                Button addButton = (Button) findViewById(R.id.button_add);
-                if (position == 1) {
-                    title.setText("Setting");
-                    addButton.setVisibility(View.GONE);
-                } else {
-                    title.setText("Book List");
-                    addButton.setVisibility(View.VISIBLE);
-                }
+        BookListFragment bookListFragment = new BookListFragment();
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().add(R.id.fragment_container, bookListFragment).commit();
 
-            }
-        });
-        tabLayout.setupWithViewPager(viewPager);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Button button = (Button) findViewById(R.id.button_add);
         button.setOnClickListener(new View.OnClickListener() {
@@ -55,4 +60,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

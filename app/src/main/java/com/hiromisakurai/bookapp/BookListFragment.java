@@ -6,9 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -43,6 +46,22 @@ public class BookListFragment extends Fragment {
 
         CustomBookListAdapter adapter = new CustomBookListAdapter(this.getContext(), R.layout.custom_book_list, listItems);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Log.i("position ", String.valueOf(position));
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment edit = new EditBookFragment();
+                transaction.replace(R.id.detail_container, edit);
+                ListView list = (ListView)view.findViewById(R.id.list_book);
+                list.setVisibility(View.GONE);
+
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
 }

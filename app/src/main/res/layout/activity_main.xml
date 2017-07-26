@@ -29,38 +29,22 @@
             android:layout_gravity="end"
             android:text="@string/button_add" />
 
-
-
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="384dp"
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/darker_gray" />
+        android:layout_weight="1" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabLayout"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-
-        app:tabGravity="fill"
-        app:tabMode="fixed"></android.support.design.widget.TabLayout>
-
-    <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:weightSum="1">
-    </android.support.design.widget.AppBarLayout>
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_navigation" />
+
+
 
 
 

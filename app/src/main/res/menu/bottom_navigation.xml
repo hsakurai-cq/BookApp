@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_book"
+        android:icon="@android:drawable/ic_dialog_dialer"
+        android:title="Books" />
+
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Setting" />
+
+</menu>
