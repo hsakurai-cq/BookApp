@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class EditBookFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         TextView toolBarTitle = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
         Button button = (Button)getActivity().findViewById(R.id.button_add);
         toolBarTitle.setText(R.string.toolbar_title_edit);
@@ -51,10 +53,12 @@ public class EditBookFragment extends Fragment {
         String title = bundle.getString("title");
         String price = bundle.getString("price");
         String purchaseDate = bundle.getString("purchaseDate");
+
         ImageView iv = (ImageView)view.findViewById(bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
         EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
         EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
+
         iv.setImageBitmap(img);
         titleEdit.setText(title);
         priceEdit.setText(price);
@@ -71,6 +75,21 @@ public class EditBookFragment extends Fragment {
                 intent.setType("image/*");
 
                 startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+    }
+
+    public void onStart() {
+        super.onStart();
+        EditText txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+        txtDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    DateDialog dialog = new DateDialog(v);
+                    FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+                    dialog.show(ft, "DatePicker");
+                }
             }
         });
     }
