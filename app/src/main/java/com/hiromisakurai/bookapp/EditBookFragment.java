@@ -1,14 +1,15 @@
 package com.hiromisakurai.bookapp;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,10 @@ import static com.hiromisakurai.bookapp.R.id.bookImage;
 public class EditBookFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 42;
+    Button editButton;
     ImageView imageView;
+    Button saveImageButton;
+    EditText txtDate;
 
     public EditBookFragment() {
         // Required empty public constructor
@@ -43,9 +47,9 @@ public class EditBookFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         TextView toolBarTitle = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
-        Button button = (Button)getActivity().findViewById(R.id.button_add);
+        editButton = (Button)getActivity().findViewById(R.id.button_add);
         toolBarTitle.setText(R.string.toolbar_title_edit);
-        button.setText(R.string.toolbar_button_save);
+        editButton.setText(R.string.toolbar_button_save);
 
         Bundle bundle = getArguments();
         Bitmap img = bundle.getParcelable("image");
@@ -64,10 +68,10 @@ public class EditBookFragment extends Fragment {
         priceEdit.setText(price);
         dateEdit.setText(purchaseDate);
 
-        Button btn = (Button)view.findViewById(R.id.button_saveImage);
+        saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
         imageView = (ImageView)view.findViewById(R.id.bookImage);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -77,11 +81,31 @@ public class EditBookFragment extends Fragment {
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
+                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
+                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
+                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+
+                Drawable bookImg = bookIV.getDrawable();
+                String titleStr = titleET.getText().toString();
+                String priceStr = priceET.getText().toString();
+                String dateStr = dateET.getText().toString();
+
+                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
+                if (validateResult) {
+                    //ToDo 書籍編集処理
+                }
+            }
+        });
     }
 
     public void onStart() {
         super.onStart();
-        EditText txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+        txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
