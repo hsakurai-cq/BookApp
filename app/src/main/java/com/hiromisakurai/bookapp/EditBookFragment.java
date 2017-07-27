@@ -1,7 +1,11 @@
 package com.hiromisakurai.bookapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,9 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import static com.hiromisakurai.bookapp.R.id.bookImage;
 
 public class EditBookFragment extends Fragment {
+
+    private static final int READ_REQUEST_CODE = 42;
+    ImageView imageView;
 
     public EditBookFragment() {
         // Required empty public constructor
@@ -51,5 +60,35 @@ public class EditBookFragment extends Fragment {
         priceEdit.setText(price);
         dateEdit.setText(purchaseDate);
 
+        Button btn = (Button)view.findViewById(R.id.button_saveImage);
+        imageView = (ImageView)view.findViewById(R.id.bookImage);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri = null;
+            if (resultData != null) {
+                uri = resultData.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+                    imageView.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
