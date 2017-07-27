@@ -32,12 +32,12 @@ public class LoginActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String loginEmail = emailEditText.getText().toString();
+                String loginPassword = passwordEditText.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(loginEmail)) {
                     ErrorDialogUtil.showDialog("No email, Please enter your email!", LoginActivity.this);
-                }else if (TextUtils.isEmpty(password)) {
+                }else if (TextUtils.isEmpty(loginPassword)) {
                     ErrorDialogUtil.showDialog("No password, Please enter your password!", LoginActivity.this);
                 } else {
                     Intent intent = new Intent(getApplication(), MainActivity.class);

@@ -21,7 +21,7 @@
     <string name="book_price">Price</string>
     <string name="purchase_date">Purchase Date</string>
     <string name="toolbar_button_save">Save</string>
-    <string name="button_add">Add</string>
+    <string name="toolbar_button_add">Add</string>
     <string name="toolbar_title_list">Book List</string>
     <string name="toolbar_title_setting">Setting</string>
     <string name="toolbar_title_edit">Edit Book</string>

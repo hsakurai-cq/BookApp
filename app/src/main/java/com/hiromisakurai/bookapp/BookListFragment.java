@@ -35,7 +35,6 @@ public class BookListFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.list_book);
 
-
         ArrayList<Book> listItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);

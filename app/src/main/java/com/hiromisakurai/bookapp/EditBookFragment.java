@@ -47,7 +47,7 @@ public class EditBookFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         TextView toolBarTitle = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
-        editButton = (Button)getActivity().findViewById(R.id.button_add);
+        editButton = (Button)getActivity().findViewById(R.id.toolbar_button_add);
         toolBarTitle.setText(R.string.toolbar_title_edit);
         editButton.setText(R.string.toolbar_button_save);
 

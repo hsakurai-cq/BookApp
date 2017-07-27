@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-            Button btn = (Button)findViewById(R.id.button_add);
+            Button addButton = (Button)findViewById(R.id.toolbar_button_add);
             TextView title = (TextView)findViewById(R.id.toolbar_main_title);
 
             switch (item.getItemId()) {
@@ -32,13 +32,14 @@ public class MainActivity extends AppCompatActivity {
                     BookListFragment bookListFragment = new BookListFragment();
                     switchFragment(bookListFragment);
                     title.setText(R.string.toolbar_title_list);
-                    btn.setVisibility(View.VISIBLE);
+                    addButton.setVisibility(View.VISIBLE);
+                    addButton.setText(R.string.toolbar_button_add);
                     return true;
                 case R.id.menu_setting:
                     SettingFragment settingFragment = new SettingFragment();
                     switchFragment(settingFragment);
                     title.setText(R.string.toolbar_title_setting);
-                    btn.setVisibility(View.GONE);
+                    addButton.setVisibility(View.GONE);
                     return true;
             }
             return true;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        Button button = (Button) findViewById(R.id.button_add);
+        Button button = (Button) findViewById(R.id.toolbar_button_add);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

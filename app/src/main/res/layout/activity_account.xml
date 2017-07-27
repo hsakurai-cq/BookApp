@@ -7,14 +7,13 @@
     tools:context="com.hiromisakurai.bookapp.AccountActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintHorizontal_bias="0.0">
 
         <TextView
             android:id="@+id/toolbar_account"
@@ -52,7 +51,7 @@
             android:text="@string/title_email" />
 
         <EditText
-            android:id="@+id/emailEditText"
+            android:id="@+id/AccountEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -66,7 +65,7 @@
             android:text="@string/title_password" />
 
         <EditText
-            android:id="@+id/passwordEditText"
+            android:id="@+id/AccountPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -80,7 +79,7 @@
             android:text="@string/title_passwordConfirm" />
 
         <EditText
-            android:id="@+id/passwordConfirmEditText"
+            android:id="@+id/AccountPasswordConfirmEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
