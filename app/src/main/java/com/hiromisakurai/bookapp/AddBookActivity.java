@@ -42,14 +42,12 @@ public class AddBookActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         EditText txtDate = (EditText)findViewById(R.id.purchaseDateEditText);
-        txtDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    DateDialog dialog = new DateDialog(v);
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    dialog.show(ft, "DatePicker");
-                }
+            public void onClick(View v) {
+                DateDialog dialog = new DateDialog(v);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                dialog.show(ft, "DatePicker");
             }
         });
     }
