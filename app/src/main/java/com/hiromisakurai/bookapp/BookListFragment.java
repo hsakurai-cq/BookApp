@@ -55,7 +55,7 @@ public class BookListFragment extends Fragment {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Log.i("position ", String.valueOf(position));
+
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 EditBookFragment edit = new EditBookFragment();
                 ListView listView = (ListView)parent;
