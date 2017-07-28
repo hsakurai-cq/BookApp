@@ -93,31 +93,38 @@ public class EditBookFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_edit, menu);
-        menu.findItem(R.id.action_edit).setVisible(true);
         menu.findItem(R.id.action_add).setVisible(false);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_edit) {
-            ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
-            EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
-            EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
-            EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
+                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
+                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
+                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
 
-            Drawable bookImg = bookIV.getDrawable();
-            String titleStr = titleET.getText().toString();
-            String priceStr = priceET.getText().toString();
-            String dateStr = dateET.getText().toString();
+                Drawable bookImg = bookIV.getDrawable();
+                String titleStr = titleET.getText().toString();
+                String priceStr = priceET.getText().toString();
+                String dateStr = dateET.getText().toString();
 
-            boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
-            if (validateResult) {
-                //ToDo 書籍編集処理
-                Log.i("Validation result", String.valueOf(validateResult));
-            }
+                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
+                if (validateResult) {
+                    //ToDo 書籍編集処理
+                    Log.i("Validation result", String.valueOf(validateResult));
+                }
+                return true;
+
+            case R.id.action_back:
+                getFragmentManager().popBackStack();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public void onStart() {

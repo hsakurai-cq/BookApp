@@ -52,5 +52,6 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.action_add).setVisible(false);
     }
 }

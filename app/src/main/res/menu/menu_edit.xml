@@ -5,8 +5,15 @@
     <item
         android:title="@string/menu_edit_item_title"
         android:id="@+id/action_edit"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:icon="@drawable/ic_done_white_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:title="@string/menu_edit_item_title"
+        android:id="@+id/action_back"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_navigate_before_white_24dp"
         app:showAsAction="ifRoom"/>
 
 </menu>

@@ -59,26 +59,32 @@ public class AddBookActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_upload) {
-            ImageView bookIV = (ImageView)findViewById(R.id.bookImage);
-            EditText titleET = (EditText)findViewById(R.id.bookTitleEditText);
-            EditText priceET = (EditText)findViewById(R.id.bookPriceEditText);
-            EditText dateET = (EditText)findViewById(R.id.purchaseDateEditText);
+        switch (item.getItemId()) {
+            case R.id.action_upload:
+                ImageView bookIV = (ImageView) findViewById(R.id.bookImage);
+                EditText titleET = (EditText) findViewById(R.id.bookTitleEditText);
+                EditText priceET = (EditText) findViewById(R.id.bookPriceEditText);
+                EditText dateET = (EditText) findViewById(R.id.purchaseDateEditText);
 
-            Drawable bookImg = bookIV.getDrawable();
-            String titleStr = titleET.getText().toString();
-            String priceStr = priceET.getText().toString();
-            String dateStr = dateET.getText().toString();
+                Drawable bookImg = bookIV.getDrawable();
+                String titleStr = titleET.getText().toString();
+                String priceStr = priceET.getText().toString();
+                String dateStr = dateET.getText().toString();
 
-            boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
-            if (validateResult) {
-                //ToDo 書籍追加処理
+                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
+                if (validateResult) {
+                    //ToDo 書籍追加処理
+                    finish();
+                }
+                return true;
+
+            case R.id.action_back:
                 finish();
-            }
-        } else {
-            finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public void onStart() {
