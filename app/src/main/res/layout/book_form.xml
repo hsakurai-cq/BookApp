@@ -10,9 +10,9 @@
 
         <ImageView
             android:id="@+id/bookImage"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_margin="30dp"
+            android:layout_width="@dimen/form_image_width"
+            android:layout_height="@dimen/form_image_height"
+            android:layout_margin="@dimen/form_image_margin"
             android:background="@color/colorAccent" />
 
         <Button
@@ -20,18 +20,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/form_button_marginStart"
             android:layout_toEndOf="@+id/bookImage"
             android:text="@string/button_setImage"
-            android:textSize="25dp" />
+            android:textSize="@dimen/form_button_textSize" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="@dimen/linear_layout_marginLeft"
+        android:layout_marginRight="@dimen/linear_layout_marginRight">
 
     <TextView
         android:id="@+id/bookTitleTextView"

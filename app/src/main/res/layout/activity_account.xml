@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp">
+        android:layout_marginLeft="@dimen/linear_layout_marginLeft"
+        android:layout_marginRight="@dimen/linear_layout_marginRight"
+        android:layout_marginTop="@dimen/linear_layout_account_marginTop">
 
         <TextView
             android:id="@+id/emailTextView"

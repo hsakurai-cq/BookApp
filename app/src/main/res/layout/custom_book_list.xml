@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_width="@dimen/list_image_width"
+        android:layout_height="@dimen/list_image_height"
+        android:layout_marginRight="@dimen/list_image_marginSide"
+        android:layout_marginLeft="@dimen/list_image_marginSide"
         android:background="@color/colorAccent"
         android:contentDescription="just a image" />
 

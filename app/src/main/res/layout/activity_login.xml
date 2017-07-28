@@ -20,9 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="128dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="@dimen/linear_layout_login_marginTop"
+        android:layout_marginLeft="@dimen/linear_layout_marginLeft"
+        android:layout_marginRight="@dimen/linear_layout_marginRight"
        >
 
         <TextView
