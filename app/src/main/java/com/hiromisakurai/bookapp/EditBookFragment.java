@@ -10,14 +10,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -26,7 +29,6 @@ import static com.hiromisakurai.bookapp.R.id.bookImage;
 public class EditBookFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 42;
-    Button editButton;
     ImageView imageView;
     Button saveImageButton;
     EditText txtDate;
@@ -39,6 +41,7 @@ public class EditBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_edit_book, container, false);
     }
 
@@ -46,10 +49,7 @@ public class EditBookFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TextView toolBarTitle = (TextView)getActivity().findViewById(R.id.toolbar_main_title);
-        editButton = (Button)getActivity().findViewById(R.id.toolbar_button_add);
-        toolBarTitle.setText(R.string.toolbar_title_edit);
-        editButton.setText(R.string.toolbar_button_save);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Book Edit");
 
         Bundle bundle = getArguments();
         Bitmap img = bundle.getParcelable("image");
@@ -81,26 +81,38 @@ public class EditBookFragment extends Fragment {
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
+    }
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
-                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
-                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
-                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_edit, menu);
+        menu.findItem(R.id.action_edit).setVisible(true);
+        menu.findItem(R.id.action_add).setVisible(false);
+    }
 
-                Drawable bookImg = bookIV.getDrawable();
-                String titleStr = titleET.getText().toString();
-                String priceStr = priceET.getText().toString();
-                String dateStr = dateET.getText().toString();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
-                if (validateResult) {
-                    //ToDo 書籍編集処理
-                }
+        if (item.getItemId() == R.id.action_edit) {
+            ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
+            EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
+            EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
+            EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+
+            Drawable bookImg = bookIV.getDrawable();
+            String titleStr = titleET.getText().toString();
+            String priceStr = priceET.getText().toString();
+            String dateStr = dateET.getText().toString();
+
+            boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
+            if (validateResult) {
+                //ToDo 書籍編集処理
+                Log.i("to do", "書籍編集処理");
             }
-        });
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onStart() {
