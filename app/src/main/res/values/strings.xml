@@ -2,13 +2,10 @@
     <string name="app_name">Book App</string>
     <string name="title_email">Email</string>
     <string name="title_password">Password</string>
-    <string name="hint_email">Enter your email...</string>
-    <string name="hint_password">Enter your password...</string>
     <string name="button_login">Login</string>
     <string name="toolbar_login">Login</string>
     <string name="toolbar_account">Account</string>
     <string name="title_passwordConfirm">Password Confirm</string>
-    <string name="hint_passwordConfirm">Please Again...</string>
     <string name="alert_title">Warning</string>
 
     <string name="toolbar_add_title">Add Book</string>

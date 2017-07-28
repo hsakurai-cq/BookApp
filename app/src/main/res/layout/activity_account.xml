@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/linear_layout_marginLeft"
-        android:layout_marginRight="@dimen/linear_layout_marginRight"
+        android:layout_marginStart="@dimen/linear_layout_marginLeft"
+        android:layout_marginEnd="@dimen/linear_layout_marginRight"
         android:layout_marginTop="@dimen/linear_layout_account_marginTop">
 
         <TextView
@@ -37,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/passwordTextView"
@@ -50,7 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/passwordConfirmTextView"
@@ -63,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
