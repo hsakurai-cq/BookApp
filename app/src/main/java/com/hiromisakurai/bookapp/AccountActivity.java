@@ -27,21 +27,30 @@ public class AccountActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_account) {
-            EditText emailET = (EditText) findViewById(R.id.AccountEmailEditText);
-            EditText passwordET = (EditText) findViewById(R.id.AccountPasswordEditText);
-            EditText passwordConfirmET = (EditText) findViewById(R.id.AccountPasswordConfirmEditText);
 
-            String signUpEmail = emailET.getText().toString();
-            String signUpPassword = passwordET.getText().toString();
-            String signUpPasswordConfirm = passwordConfirmET.getText().toString();
+        switch (item.getItemId()) {
+            case R.id.action_account:
+                EditText emailET = (EditText) findViewById(R.id.AccountEmailEditText);
+                EditText passwordET = (EditText) findViewById(R.id.AccountPasswordEditText);
+                EditText passwordConfirmET = (EditText) findViewById(R.id.AccountPasswordConfirmEditText);
 
-            boolean validationResult = ValidationUtil.validateAccount(signUpEmail, signUpPassword, signUpPasswordConfirm, AccountActivity.this);
-            if (validationResult) {
-                //Todo アカウント作成処理
-                Log.i("Account validation", String.valueOf(validationResult));
-            }
+                String signUpEmail = emailET.getText().toString();
+                String signUpPassword = passwordET.getText().toString();
+                String signUpPasswordConfirm = passwordConfirmET.getText().toString();
+
+                boolean validationResult = ValidationUtil.validateAccount(signUpEmail, signUpPassword, signUpPasswordConfirm, AccountActivity.this);
+                if (validationResult) {
+                    //Todo アカウント作成処理
+                    Log.i("Account validation", String.valueOf(validationResult));
+                }
+                return true;
+
+            case R.id.action_back:
+                finish();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
