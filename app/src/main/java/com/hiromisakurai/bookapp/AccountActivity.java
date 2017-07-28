@@ -17,26 +17,6 @@ public class AccountActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_account);
         setSupportActionBar(toolbar);
-
-//        Button signUpButton = (Button)findViewById(R.id.signUpButton);
-//        signUpButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                EditText emailET = (EditText) findViewById(R.id.AccountEmailEditText);
-//                EditText passwordET = (EditText) findViewById(R.id.AccountPasswordEditText);
-//                EditText passwordConfirmET = (EditText) findViewById(R.id.AccountPasswordConfirmEditText);
-//
-//                String signUpEmail = emailET.getText().toString();
-//                String signUpPassword = passwordET.getText().toString();
-//                String signUpPasswordConfirm = passwordConfirmET.getText().toString();
-//
-//                boolean validationResult = ValidationUtil.validateAccount(signUpEmail, signUpPassword, signUpPasswordConfirm, AccountActivity.this);
-//                if (validationResult) {
-//                    //Todo アカウント作成処理
-//                    Log.i("Account validation true", String.valueOf(validationResult));
-//                }
-//            }
-//        });
     }
 
     @Override

@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(loginEmail)) {
                     ErrorDialogUtil.showDialog("No email, Please enter your email!", LoginActivity.this);
                 }else if (TextUtils.isEmpty(loginPassword)) {
-                    ErrorDialogUtil.showDialog("No password, Please enter your password!", LoginActivity.this);
+                    ErrorDialogUtil.showDialog("No password,v Please enter your password!", LoginActivity.this);
                 } else {
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);

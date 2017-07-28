@@ -9,11 +9,8 @@
     <string name="toolbar_account">Account</string>
     <string name="title_passwordConfirm">Password Confirm</string>
     <string name="hint_passwordConfirm">Please Again...</string>
-    <string name="button_signup">Sign Up</string>
     <string name="alert_title">Warning</string>
 
-    <string name="book_list_fragment">Book List fragment</string>
-    <string name="setting_fragment">Setting fragment</string>
     <string name="toolbar_add_title">Add Book</string>
     <string name="toolbar_button_back">Back</string>
     <string name="button_setImage">SET IMAGE</string>
@@ -23,10 +20,19 @@
     <string name="toolbar_button_save">Save</string>
     <string name="toolbar_button_add">Add</string>
     <string name="toolbar_title_list">Book List</string>
+    <string name="toolbar_title_add">Add Book</string>
     <string name="toolbar_title_setting">Setting</string>
+
     <string name="toolbar_title_edit">Edit Book</string>
 
     <string name="setting_fragment_button">Configuration</string>
     <string name="menu_title_book">BOOK</string>
     <string name="menu_title_setting">SETTING</string>
+
+    <string name="error_no_email">No email, Please enter your email!</string>
+
+    <string name="menu_account_item_title">icon_action_account</string>
+    <string name="menu_add_item_title">icon_action_upload</string>
+    <string name="menu_edit_item_title">icon_action_edit</string>
+    <string name="menu_main_item_title">icon_action_add</string>
 </resources>

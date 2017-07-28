@@ -19,6 +19,11 @@ import java.util.ArrayList;
 
 public class BookListFragment extends Fragment {
 
+    public static String BUNDLE_IMAGE = "image";
+    public static String BUNDLE_TITLE = "title";
+    public static String BUNDLE_PRICE = "price";
+    public static String BUNDLE_DATE = "purchaseDate";
+
     public BookListFragment() {
         // Required empty public constructor
     }
@@ -57,10 +62,10 @@ public class BookListFragment extends Fragment {
                 Book book = (Book)listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("image", book.getBookImage());
-                bundle.putString("title", book.getBookTitle());
-                bundle.putString("price", book.getBookPrice());
-                bundle.putString("purchaseDate", book.getPurchaseDate());
+                bundle.putParcelable(BUNDLE_IMAGE, book.getBookImage());
+                bundle.putString(BUNDLE_TITLE, book.getBookTitle());
+                bundle.putString(BUNDLE_PRICE, book.getBookPrice());
+                bundle.putString(BUNDLE_DATE, book.getPurchaseDate());
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
 

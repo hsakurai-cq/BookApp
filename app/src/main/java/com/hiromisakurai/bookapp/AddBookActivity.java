@@ -21,6 +21,8 @@ import java.io.IOException;
 
 public class AddBookActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
+    private static final String DIALOG_KEY = "DatePicker";
+    private static final String IMAGE_TYPE = "image/*";
 
     ImageView imageView;
     Button saveImageButton;
@@ -39,7 +41,7 @@ public class AddBookActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
+                intent.setType(IMAGE_TYPE);
 
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
@@ -87,7 +89,7 @@ public class AddBookActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DateDialog dialog = new DateDialog(v);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                dialog.show(ft, "DatePicker");
+                dialog.show(ft, DIALOG_KEY);
             }
         });
     }

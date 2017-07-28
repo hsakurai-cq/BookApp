@@ -29,6 +29,12 @@ import static com.hiromisakurai.bookapp.R.id.bookImage;
 public class EditBookFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 42;
+    private static final String BUNDLE_IMAGE = "image";
+    private static final String BUNDLE_TITLE = "title";
+    private static final String BUNDLE_PRICE = "price";
+    private static final String BUNDLE_DATE = "purchaseDate";
+    private static final String IMAGE_TYPE = "image/*";
+    private static final String DIALOG_KEY = "DatePicker";
     ImageView imageView;
     Button saveImageButton;
     EditText txtDate;
@@ -52,11 +58,11 @@ public class EditBookFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Book Edit");
 
         Bundle bundle = getArguments();
-        Bitmap img = bundle.getParcelable("image");
+        Bitmap img = bundle.getParcelable(BUNDLE_IMAGE);
         Log.i("image bitmap", String.valueOf(img));
-        String title = bundle.getString("title");
-        String price = bundle.getString("price");
-        String purchaseDate = bundle.getString("purchaseDate");
+        String title = bundle.getString(BUNDLE_TITLE);
+        String price = bundle.getString(BUNDLE_PRICE);
+        String purchaseDate = bundle.getString(BUNDLE_DATE);
 
         ImageView iv = (ImageView)view.findViewById(bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
@@ -76,7 +82,7 @@ public class EditBookFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/*");
+                intent.setType(IMAGE_TYPE);
 
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
@@ -108,10 +114,9 @@ public class EditBookFragment extends Fragment {
             boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
             if (validateResult) {
                 //ToDo 書籍編集処理
-                Log.i("to do", "書籍編集処理");
+                Log.i("Validation result", String.valueOf(validateResult));
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -123,7 +128,7 @@ public class EditBookFragment extends Fragment {
             public void onClick(View v) {
                 DateDialog dialog = new DateDialog(v);
                 FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-                dialog.show(ft, "DatePicker");
+                dialog.show(ft, DIALOG_KEY);
             }
         });
     }
