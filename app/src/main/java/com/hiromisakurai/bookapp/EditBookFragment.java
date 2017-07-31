@@ -29,10 +29,6 @@ import static com.hiromisakurai.bookapp.R.id.bookImage;
 public class EditBookFragment extends Fragment {
 
     private static final int READ_REQUEST_CODE = 42;
-    private static final String BUNDLE_IMAGE = "image";
-    private static final String BUNDLE_TITLE = "title";
-    private static final String BUNDLE_PRICE = "price";
-    private static final String BUNDLE_DATE = "purchaseDate";
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
     private ImageView imageView;
@@ -54,11 +50,11 @@ public class EditBookFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Book Edit");
 
         Bundle bundle = getArguments();
-        Bitmap img = bundle.getParcelable(BUNDLE_IMAGE);
+        Bitmap img = bundle.getParcelable(BookListFragment.BUNDLE_IMAGE);
         Log.i("image bitmap", String.valueOf(img));
-        String title = bundle.getString(BUNDLE_TITLE);
-        String price = bundle.getString(BUNDLE_PRICE);
-        String purchaseDate = bundle.getString(BUNDLE_DATE);
+        String title = bundle.getString(BookListFragment.BUNDLE_TITLE);
+        String price = bundle.getString(BookListFragment.BUNDLE_PRICE);
+        String purchaseDate = bundle.getString(BookListFragment.BUNDLE_DATE);
 
         ImageView iv = (ImageView)view.findViewById(bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
