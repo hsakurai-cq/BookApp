@@ -25,10 +25,6 @@ public class BookListFragment extends Fragment {
     public static String BUNDLE_PRICE = "price";
     public static String BUNDLE_DATE = "purchaseDate";
 
-    public BookListFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
