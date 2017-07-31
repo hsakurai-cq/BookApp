@@ -8,10 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -68,6 +70,15 @@ public class BookListFragment extends Fragment {
 
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        Button loadMoreButton =(Button)view.findViewById(R.id.loadMoreButton);
+        loadMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //ToDo ListView更新処理
+                Log.i("Load More Button", "onClick");
             }
         });
     }
