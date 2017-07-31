@@ -22,15 +22,15 @@ public class Book {
         mBookImage = bookImage;
     }
 
-    public void setmBookTitle(String bookTitle) {
+    public void setBookTitle(String bookTitle) {
         mBookTitle = bookTitle;
     }
 
-    public void setmBookPrice(String bookPrice) {
+    public void setBookPrice(String bookPrice) {
         mBookPrice = bookPrice;
     }
 
-    public void setmPurchaseDate(String purchaseDate) {
+    public void setPurchaseDate(String purchaseDate) {
         mPurchaseDate = purchaseDate;
     }
 
