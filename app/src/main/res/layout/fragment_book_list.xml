@@ -13,9 +13,10 @@
         android:layout_weight="1" />
 
     <Button
-            android:id="@+id/loadMoreButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/button_load_more" />
+        android:id="@+id/loadMoreButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_load_more"
+        android:layout_weight="0"/>
 
 </LinearLayout>
