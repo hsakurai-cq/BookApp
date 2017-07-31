@@ -5,11 +5,15 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import java.util.Calendar;
 
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+    private OnDateDialogClickListener listener;
+    public void setListener(OnDateDialogClickListener listener) {
+        this.listener = listener;
+    }
 
     public Dialog onCreateDialog(Bundle savedInstance) {
         final Calendar cal = Calendar.getInstance();
@@ -20,8 +24,9 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        TextView textView = getActivity().findViewById(R.id.purchaseDateEditText);
-        String dateStr = year + "-" + (month + 1) + "-" + day;
-        textView.setText(dateStr);
+
+        if (listener != null) {
+            listener.onDateDialogClickListener(year, month, day);
+        }
     }
 }

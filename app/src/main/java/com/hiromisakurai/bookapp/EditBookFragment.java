@@ -26,7 +26,7 @@ import java.io.IOException;
 
 import static com.hiromisakurai.bookapp.R.id.bookImage;
 
-public class EditBookFragment extends Fragment {
+public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
 
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
@@ -125,6 +125,7 @@ public class EditBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DateDialog dialog = new DateDialog();
+                dialog.setListener(EditBookFragment.this);
                 FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
                 dialog.show(ft, DIALOG_KEY);
             }
@@ -146,5 +147,12 @@ public class EditBookFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public void onDateDialogClickListener(int year, int month, int day) {
+        EditText editText = (EditText) getActivity().findViewById(R.id.purchaseDateEditText);
+        String dateStr = year + "-" + (month + 1) + "-" + day;
+        editText.setText(dateStr);
     }
 }

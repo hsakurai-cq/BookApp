@@ -19,7 +19,7 @@ import android.widget.ImageView;
 
 import java.io.IOException;
 
-public class AddBookActivity extends AppCompatActivity {
+public class AddBookActivity extends AppCompatActivity implements OnDateDialogClickListener {
     private static final int READ_REQUEST_CODE = 42;
     private static final String DIALOG_KEY = "DatePicker";
     private static final String IMAGE_TYPE = "image/*";
@@ -41,7 +41,6 @@ public class AddBookActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType(IMAGE_TYPE);
-
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
@@ -93,10 +92,18 @@ public class AddBookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DateDialog dialog = new DateDialog();
+                dialog.setListener(AddBookActivity.this);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 dialog.show(ft, DIALOG_KEY);
             }
         });
+    }
+
+    @Override
+    public void onDateDialogClickListener(int year, int month, int day) {
+        EditText editText = (EditText) findViewById(R.id.purchaseDateEditText);
+        String dateStr = year + "-" + (month + 1) + "-" + day;
+        editText.setText(dateStr);
     }
 
     @Override
