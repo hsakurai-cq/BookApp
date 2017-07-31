@@ -35,9 +35,9 @@ public class EditBookFragment extends Fragment {
     private static final String BUNDLE_DATE = "purchaseDate";
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
-    ImageView imageView;
-    Button saveImageButton;
-    EditText txtDate;
+    private ImageView imageView;
+    private Button saveImageButton;
+    private EditText txtDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

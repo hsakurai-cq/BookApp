@@ -22,10 +22,10 @@ import java.util.List;
 
 public class BookListFragment extends Fragment {
 
-    public static String BUNDLE_IMAGE = "image";
-    public static String BUNDLE_TITLE = "title";
-    public static String BUNDLE_PRICE = "price";
-    public static String BUNDLE_DATE = "purchaseDate";
+    private static String BUNDLE_IMAGE = "image";
+    private static String BUNDLE_TITLE = "title";
+    private static String BUNDLE_PRICE = "price";
+    private static String BUNDLE_DATE = "purchaseDate";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

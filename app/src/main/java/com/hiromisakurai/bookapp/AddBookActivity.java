@@ -24,9 +24,9 @@ public class AddBookActivity extends AppCompatActivity {
     private static final String DIALOG_KEY = "DatePicker";
     private static final String IMAGE_TYPE = "image/*";
 
-    ImageView imageView;
-    Button saveImageButton;
-    EditText txtDate;
+    private ImageView imageView;
+    private Button saveImageButton;
+    private EditText txtDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

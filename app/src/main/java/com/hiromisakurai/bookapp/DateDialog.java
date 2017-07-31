@@ -14,7 +14,7 @@ import java.util.Calendar;
 @SuppressLint("ValidFragment")
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    EditText txtDate;
+    private EditText txtDate;
 
     public DateDialog(View view) {
         txtDate = (EditText)view;
