@@ -39,10 +39,6 @@ public class EditBookFragment extends Fragment {
     Button saveImageButton;
     EditText txtDate;
 
-    public EditBookFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
