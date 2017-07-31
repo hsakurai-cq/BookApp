@@ -6,12 +6,13 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ValidationUtil {
 
     static public boolean validateLogin(String email, String password, Context context) {
         boolean valid = true;
-        ArrayList<String> errorArray = new ArrayList<String>();
+        List<String> errorArray = new ArrayList<>();
 
         if (TextUtils.isEmpty(email)) {
             errorArray.add("Enter Email.");
@@ -34,7 +35,7 @@ public class ValidationUtil {
 
     static public boolean validateForm(Drawable img, String title, String price, String date, Context context) {
         boolean valid = true;
-        ArrayList<String> errorArray = new ArrayList<String>();
+        List<String> errorArray = new ArrayList<>();
 
         if (img == null) {
             errorArray.add("Set Image.");
@@ -66,7 +67,7 @@ public class ValidationUtil {
 
     static  public boolean validateAccount(String email, String password, String passConfirm, Context context) {
         boolean valid = true;
-        ArrayList<String> errorArray = new ArrayList<String>();
+        List<String> errorArray = new ArrayList<>();
 
         if (TextUtils.isEmpty(email)) {
             errorArray.add("Enter Email.");
