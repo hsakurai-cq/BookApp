@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(settingFragment);
                     return true;
             }
-            return true;
+            return false;
         }
     };
 

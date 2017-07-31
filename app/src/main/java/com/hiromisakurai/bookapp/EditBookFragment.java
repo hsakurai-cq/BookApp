@@ -33,7 +33,6 @@ public class EditBookFragment extends Fragment {
     private static final String DIALOG_KEY = "DatePicker";
     private ImageView imageView;
     private Button saveImageButton;
-    private EditText txtDate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,11 +120,11 @@ public class EditBookFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+        EditText txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateDialog dialog = new DateDialog(v);
+                DateDialog dialog = new DateDialog();
                 FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
                 dialog.show(ft, DIALOG_KEY);
             }

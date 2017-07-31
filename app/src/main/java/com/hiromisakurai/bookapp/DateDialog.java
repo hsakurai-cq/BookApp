@@ -1,24 +1,15 @@
 package com.hiromisakurai.bookapp;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
-@SuppressLint("ValidFragment")
 public class DateDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-    private EditText txtDate;
-
-    public DateDialog(View view) {
-        txtDate = (EditText)view;
-    }
 
     public Dialog onCreateDialog(Bundle savedInstance) {
         final Calendar cal = Calendar.getInstance();
@@ -29,7 +20,8 @@ public class DateDialog extends DialogFragment implements DatePickerDialog.OnDat
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        String date = year + "-" + (month + 1) + "-" + day;
-        txtDate.setText(date);
+        TextView textView = getActivity().findViewById(R.id.purchaseDateEditText);
+        String dateStr = year + "-" + (month + 1) + "-" + day;
+        textView.setText(dateStr);
     }
 }

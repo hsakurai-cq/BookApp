@@ -26,7 +26,6 @@ public class AddBookActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private Button saveImageButton;
-    private EditText txtDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +88,11 @@ public class AddBookActivity extends AppCompatActivity {
 
     public void onStart() {
         super.onStart();
-        txtDate = (EditText)findViewById(R.id.purchaseDateEditText);
+        EditText txtDate = (EditText)findViewById(R.id.purchaseDateEditText);
         txtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateDialog dialog = new DateDialog(v);
+                DateDialog dialog = new DateDialog();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 dialog.show(ft, DIALOG_KEY);
             }
