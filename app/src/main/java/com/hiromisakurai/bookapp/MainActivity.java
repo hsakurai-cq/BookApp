@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_add) {
             Intent intent = new Intent(getApplication(), AddBookActivity.class);
             startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
