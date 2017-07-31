@@ -3,6 +3,7 @@ package com.hiromisakurai.bookapp;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 public class ValidationUtil {
     static public boolean validateForm(Drawable img, String title, String price, String date, Context context) {
@@ -12,15 +13,15 @@ public class ValidationUtil {
             ErrorDialogUtil.showDialog("Set Image.", context);
             valid = false;
         }
-        if (title.isEmpty()) {
+        if (TextUtils.isEmpty(title)) {
             ErrorDialogUtil.showDialog("Enter Title.", context);
             valid = false;
         }
-        if (price.isEmpty()) {
+        if (TextUtils.isEmpty(price)) {
             ErrorDialogUtil.showDialog("Enter Price.", context);
             valid = false;
         }
-        if (date.isEmpty()) {
+        if (TextUtils.isEmpty(date)) {
             ErrorDialogUtil.showDialog("Enter Date", context);
             valid = false;
         }
@@ -30,17 +31,17 @@ public class ValidationUtil {
     static  public boolean validateAccount(String email, String password, String passConfirm, Context context) {
         boolean valid = true;
 
-        if (email.isEmpty()) {
+        if (TextUtils.isEmpty(email)) {
             ErrorDialogUtil.showDialog("Enter Email.", context);
             valid = false;
         }
 
-        if (password.isEmpty()) {
+        if (TextUtils.isEmpty(password)) {
             ErrorDialogUtil.showDialog("Enter Password.", context);
             valid = false;
         }
 
-        if (passConfirm.isEmpty()) {
+        if (TextUtils.isEmpty(passConfirm)) {
             ErrorDialogUtil.showDialog("Enter Password Again to Confirm.", context);
             valid = false;
         }
