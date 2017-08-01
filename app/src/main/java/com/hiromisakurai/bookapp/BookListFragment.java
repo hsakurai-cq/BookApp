@@ -22,11 +22,6 @@ import java.util.List;
 
 public class BookListFragment extends Fragment {
 
-    static final String BUNDLE_IMAGE = "image";
-    static final String BUNDLE_TITLE = "title";
-    static final String BUNDLE_PRICE = "price";
-    static final String BUNDLE_DATE = "purchaseDate";
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,10 +56,10 @@ public class BookListFragment extends Fragment {
                 Book book = (Book)listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(BUNDLE_IMAGE, book.getBookImage());
-                bundle.putString(BUNDLE_TITLE, book.getBookTitle());
-                bundle.putString(BUNDLE_PRICE, book.getBookPrice());
-                bundle.putString(BUNDLE_DATE, book.getPurchaseDate());
+                bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getBookImage());
+                bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getBookTitle());
+                bundle.putString(Constants.BundleKey.BUNDLE_PRICE, book.getBookPrice());
+                bundle.putString(Constants.BundleKey.BUNDLE_DATE, book.getPurchaseDate());
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
 

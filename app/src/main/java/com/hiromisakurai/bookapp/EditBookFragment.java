@@ -49,11 +49,11 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_edit);
 
         Bundle bundle = getArguments();
-        Bitmap img = bundle.getParcelable(BookListFragment.BUNDLE_IMAGE);
+        Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
         //Log.i("image bitmap", String.valueOf(img));
-        String title = bundle.getString(BookListFragment.BUNDLE_TITLE);
-        String price = bundle.getString(BookListFragment.BUNDLE_PRICE);
-        String purchaseDate = bundle.getString(BookListFragment.BUNDLE_DATE);
+        String title = bundle.getString(Constants.BundleKey.BUNDLE_TITLE);
+        String price = bundle.getString(Constants.BundleKey.BUNDLE_PRICE);
+        String purchaseDate = bundle.getString(Constants.BundleKey.BUNDLE_DATE);
 
         ImageView iv = (ImageView)view.findViewById(bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
