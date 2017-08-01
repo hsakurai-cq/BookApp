@@ -30,9 +30,9 @@ public class AccountActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_account:
-                EditText emailET = (EditText) findViewById(R.id.AccountEmailEditText);
-                EditText passwordET = (EditText) findViewById(R.id.AccountPasswordEditText);
-                EditText passwordConfirmET = (EditText) findViewById(R.id.AccountPasswordConfirmEditText);
+                EditText emailET = (EditText) findViewById(R.id.accountEmailEditText);
+                EditText passwordET = (EditText) findViewById(R.id.accountPasswordEditText);
+                EditText passwordConfirmET = (EditText) findViewById(R.id.accountPasswordConfirmEditText);
 
                 String signUpEmail = emailET.getText().toString();
                 String signUpPassword = passwordET.getText().toString();

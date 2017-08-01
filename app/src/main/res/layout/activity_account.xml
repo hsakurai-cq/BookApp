@@ -33,7 +33,7 @@
             android:text="@string/title_email" />
 
         <EditText
-            android:id="@+id/AccountEmailEditText"
+            android:id="@+id/accountEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -47,7 +47,7 @@
             android:text="@string/title_password" />
 
         <EditText
-            android:id="@+id/AccountPasswordEditText"
+            android:id="@+id/accountPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -61,7 +61,7 @@
             android:text="@string/title_passwordConfirm" />
 
         <EditText
-            android:id="@+id/AccountPasswordConfirmEditText"
+            android:id="@+id/accountPasswordConfirmEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

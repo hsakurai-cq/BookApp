@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ValidationUtil {
 
-    static public boolean validateLogin(String email, String password, Context context) {
+    public static boolean validateLogin(String email, String password, Context context) {
         boolean valid = true;
         List<String> errorArray = new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class ValidationUtil {
         return valid;
     }
 
-    static public boolean validateForm(Drawable img, String title, String price, String date, Context context) {
+    public static boolean validateForm(Drawable img, String title, String price, String date, Context context) {
         boolean valid = true;
         List<String> errorArray = new ArrayList<>();
 
@@ -65,7 +65,7 @@ public class ValidationUtil {
         return valid;
     }
 
-    static  public boolean validateAccount(String email, String password, String passConfirm, Context context) {
+    public static boolean validateAccount(String email, String password, String passConfirm, Context context) {
         boolean valid = true;
         List<String> errorArray = new ArrayList<>();
 

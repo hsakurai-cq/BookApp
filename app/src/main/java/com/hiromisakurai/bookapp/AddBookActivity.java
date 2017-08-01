@@ -85,6 +85,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
         }
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         EditText txtDate = (EditText)findViewById(R.id.purchaseDateEditText);
