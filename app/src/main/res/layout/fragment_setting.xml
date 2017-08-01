@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hiromisakurai.bookapp.SettingFragment">
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/setting_layout_marginTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/setting_layout_marginLeft"
+        android:layout_marginEnd="@dimen/setting_layout_marginRight"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_configuration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_fragment_button" />
+    </LinearLayout>
+</FrameLayout>

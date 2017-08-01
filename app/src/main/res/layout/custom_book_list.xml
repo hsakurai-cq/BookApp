@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/list_image_width"
+        android:layout_height="@dimen/list_image_height"
+        android:layout_marginStart="@dimen/list_image_marginSide"
+        android:layout_marginEnd="@dimen/list_image_marginSide"
+        android:background="@color/colorAccent"
+        android:contentDescription="just a image" />
+
+    <TextView
+        android:id="@+id/bookTitle"
+        android:background="@color/colorAccent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Book Name is Here"
+        android:layout_toEndOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/bookPrice"
+        android:background="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:text="Book Price" />
+
+    <TextView
+        android:id="@+id/purchaseDate"
+        android:background="@color/colorAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/bookPrice"
+        android:text="2017/05/19" />
+</RelativeLayout>

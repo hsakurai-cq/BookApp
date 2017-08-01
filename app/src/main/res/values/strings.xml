@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">Book App</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="toolbar_login">Login</string>
+    <string name="toolbar_account">Account</string>
+    <string name="title_passwordConfirm">Password Confirm</string>
+    <string name="alert_title">Warning</string>
+
+    <string name="toolbar_add_title">Add Book</string>
+    <string name="toolbar_button_back">Back</string>
+    <string name="button_setImage">SET IMAGE</string>
+    <string name="book_title">Title</string>
+    <string name="book_price">Price</string>
+    <string name="purchase_date">Purchase Date</string>
+    <string name="toolbar_button_save">Save</string>
+    <string name="toolbar_button_add">Add</string>
+    <string name="toolbar_title_list">Book List</string>
+    <string name="toolbar_title_add">Add Book</string>
+    <string name="toolbar_title_setting">Setting</string>
+
+    <string name="toolbar_title_edit">Edit Book</string>
+
+    <string name="setting_fragment_button">Configuration</string>
+    <string name="menu_title_book">BOOK</string>
+    <string name="menu_title_setting">SETTING</string>
+
+    <string name="error_no_email">No email, Please enter your email!</string>
+
+    <string name="menu_account_item_title">icon_action_account</string>
+    <string name="menu_add_item_title">icon_action_upload</string>
+    <string name="menu_edit_item_title">icon_action_edit</string>
+    <string name="menu_main_item_title">icon_action_add</string>
+    <string name="button_load_more">Load More</string>
 </resources>

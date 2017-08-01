@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="linear_layout_marginLeft">20dp</dimen>
+    <dimen name="linear_layout_marginRight">20dp</dimen>
+    <dimen name="linear_layout_account_marginTop">60dp</dimen>
+    <dimen name="linear_layout_login_marginTop">20dp</dimen>
+
+    <dimen name="form_image_width">120dp</dimen>
+    <dimen name="form_image_height">120dp</dimen>
+    <dimen name="form_image_margin">30dp</dimen>
+    <dimen name="form_button_marginStart">20dp</dimen>
+    <dimen name="form_button_textSize">25sp</dimen>
+
+    <dimen name="list_image_width">120dp</dimen>
+    <dimen name="list_image_height">80dp</dimen>
+    <dimen name="list_image_marginSide">16dp</dimen>
+
+    <dimen name="setting_layout_marginTop">120dp</dimen>
+    <dimen name="setting_layout_marginLeft">50dp</dimen>
+    <dimen name="setting_layout_marginRight">50dp</dimen>
+
+</resources>
