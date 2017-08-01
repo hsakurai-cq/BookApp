@@ -42,6 +42,8 @@ public class AccountActivity extends AppCompatActivity {
                 if (validationResult) {
                     //Todo アカウント作成処理
                     Log.i("Account validation", String.valueOf(validationResult));
+                } else {
+                    ErrorDialogUtil.showDialog("Please enter the correct information", AccountActivity.this);
                 }
                 return true;
 

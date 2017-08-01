@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (validationResult) {
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
+                } else {
+                    ErrorDialogUtil.showDialog("Please enter the correct information.", LoginActivity.this);
                 }
             }
         });

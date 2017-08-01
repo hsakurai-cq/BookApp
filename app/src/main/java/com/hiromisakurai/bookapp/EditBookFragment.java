@@ -105,6 +105,8 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 if (validateResult) {
                     //ToDo 書籍編集処理
                     Log.i("Validation result", String.valueOf(validateResult));
+                } else {
+                    ErrorDialogUtil.showDialog("Please enter the correct information", getActivity());
                 }
                 return true;
 

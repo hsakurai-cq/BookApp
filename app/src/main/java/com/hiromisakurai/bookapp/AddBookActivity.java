@@ -73,6 +73,8 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 if (validateResult) {
                     //ToDo 書籍追加処理
                     finish();
+                } else {
+                    ErrorDialogUtil.showDialog("Please enter the correct information", AddBookActivity.this);
                 }
                 return true;
 
