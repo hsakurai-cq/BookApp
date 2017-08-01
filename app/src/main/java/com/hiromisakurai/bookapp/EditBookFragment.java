@@ -46,11 +46,11 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Book Edit");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_edit);
 
         Bundle bundle = getArguments();
         Bitmap img = bundle.getParcelable(BookListFragment.BUNDLE_IMAGE);
-        Log.i("image bitmap", String.valueOf(img));
+        //Log.i("image bitmap", String.valueOf(img));
         String title = bundle.getString(BookListFragment.BUNDLE_TITLE);
         String price = bundle.getString(BookListFragment.BUNDLE_PRICE);
         String purchaseDate = bundle.getString(BookListFragment.BUNDLE_DATE);
@@ -74,7 +74,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType(IMAGE_TYPE);
-
                 startActivityForResult(intent, READ_REQUEST_CODE);
             }
         });
