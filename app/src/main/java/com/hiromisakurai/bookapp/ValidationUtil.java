@@ -10,94 +10,80 @@ import java.util.List;
 
 public class ValidationUtil {
 
-    public static boolean validateLogin(String email, String password, Context context) {
-        boolean valid = true;
+    public static String validateLogin(String email, String password, Context context) {
         List<String> errorArray = new ArrayList<>();
 
         if (TextUtils.isEmpty(email)) {
-            //errorArray.add("Enter Email.");
-            valid = false;
+            errorArray.add("Enter Email.");
         }
 
         if (TextUtils.isEmpty(password)) {
-            //errorArray.add("Enter Password.");
-            valid = false;
+            errorArray.add("Enter Password.");
         }
 
-//        if (!valid) {
-//            //String errorMessages = TextUtils.join("\n", errorArray);
-//            //ErrorDialogUtil.showDialog(errorMessages, context);
-//        }
-
-        return valid;
+        if (errorArray.isEmpty()) {
+            return null;
+        } else {
+            String errorMessages = TextUtils.join("\n", errorArray);
+            return errorMessages;
+        }
     }
 
-    public static boolean validateForm(Drawable img, String title, String price, String date, Context context) {
-        boolean valid = true;
-        //List<String> errorArray = new ArrayList<>();
+    public static String validateForm(Drawable img, String title, String price, String date, Context context) {
+        List<String> errorArray = new ArrayList<>();
 
         if (img == null) {
-            //errorArray.add("Set Image.");
-            valid = false;
+            errorArray.add("Set Image.");
         }
 
         if (TextUtils.isEmpty(title)) {
-            //errorArray.add("Enter title.");
-            valid = false;
+            errorArray.add("Enter title.");
         }
 
         if (TextUtils.isEmpty(price)) {
-            //errorArray.add("Enter Price.");
-            valid = false;
+            errorArray.add("Enter Price.");
         }
 
         if (TextUtils.isEmpty(date)) {
-            //errorArray.add("Enter Purchase Date");
-            valid = false;
+            errorArray.add("Enter Purchase Date");
         }
 
-//        if (!valid) {
-//            String errorMessages = TextUtils.join("\n", errorArray);
-//            ErrorDialogUtil.showDialog(errorMessages, context);
-//        }
-
-        return valid;
+        if (errorArray.isEmpty()) {
+            return null;
+        } else {
+            String errorMessages = TextUtils.join("\n", errorArray);
+            return errorMessages;
+        }
     }
 
-    public static boolean validateAccount(String email, String password, String passConfirm, Context context) {
-        boolean valid = true;
-        //List<String> errorArray = new ArrayList<>();
+    public static String validateAccount(String email, String password, String passConfirm, Context context) {
+        List<String> errorArray = new ArrayList<>();
 
         if (TextUtils.isEmpty(email)) {
-            //errorArray.add("Enter Email.");
-            valid = false;
+            errorArray.add("Enter Email.");
         }
 
         if (TextUtils.isEmpty(password)) {
-            //errorArray.add("Enter Password.");
-            valid = false;
+            errorArray.add("Enter Password.");
         }
 
         if (TextUtils.isEmpty(passConfirm)) {
-            //errorArray.add("Enter Password Again to Confirm..");
-            valid = false;
+            errorArray.add("Enter Password Again to Confirm..");
         }
 
         if (password.length() < 6) {
-            //errorArray.add("Too short, your password.");
-            valid = false;
+            errorArray.add("Too short, your password.");
         }
 
         if (!(password.equals(passConfirm))) {
-            //errorArray.add("Password, not matching.");
-            valid = false;
+            errorArray.add("Password, not matching.");
         }
 
-//        if (!valid) {
-//            String errorMessages = TextUtils.join("\n", errorArray);
-//            ErrorDialogUtil.showDialog(errorMessages, context);
-//        }
-
-        return valid;
+        if (errorArray.isEmpty()) {
+            return null;
+        } else {
+            String errorMessages = TextUtils.join("\n", errorArray);
+            return errorMessages;
+        }
     }
 }

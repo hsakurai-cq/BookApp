@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,12 +32,14 @@ public class LoginActivity extends AppCompatActivity {
                 String loginEmail = emailEditText.getText().toString();
                 String loginPassword = passwordEditText.getText().toString();
 
-                boolean validationResult = ValidationUtil.validateLogin(loginEmail, loginPassword, LoginActivity.this);
-                if (validationResult) {
+                String errorMessageString = ValidationUtil.validateLogin(loginEmail, loginPassword, LoginActivity.this);
+                //Log.i("errorMessageString", String.valueOf(errorMessageString));
+                boolean valid = TextUtils.isEmpty(errorMessageString);
+                if (valid) {
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                 } else {
-                    ErrorDialogUtil.showDialog("Please enter the correct information.", LoginActivity.this);
+                    ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
                 }
             }
         });

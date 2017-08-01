@@ -11,7 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,12 +101,13 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 String priceStr = priceET.getText().toString();
                 String dateStr = dateET.getText().toString();
 
-                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
-                if (validateResult) {
-                    //ToDo 書籍編集処理
-                    Log.i("Validation result", String.valueOf(validateResult));
+                String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
+                boolean valid = TextUtils.isEmpty(errorMessageString);
+                if (valid) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
                 } else {
-                    ErrorDialogUtil.showDialog("Please enter the correct information", getActivity());
+                    ErrorDialogUtil.showDialog(errorMessageString, getActivity());
                 }
                 return true;
 
@@ -142,7 +143,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
                     imageView.setImageBitmap(bitmap);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

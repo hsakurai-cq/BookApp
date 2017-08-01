@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,12 +70,13 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 String priceStr = priceET.getText().toString();
                 String dateStr = dateET.getText().toString();
 
-                boolean validateResult = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
-                if (validateResult) {
-                    //ToDo 書籍追加処理
-                    finish();
+                String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
+                boolean valid = TextUtils.isEmpty(errorMessageString);
+                if (valid) {
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(intent);
                 } else {
-                    ErrorDialogUtil.showDialog("Please enter the correct information", AddBookActivity.this);
+                    ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
                 }
                 return true;
 
