@@ -4,50 +4,50 @@ import android.graphics.Bitmap;
 
 
 public class Book {
-    private Bitmap mBookImage = null;
-    private String mBookTitle = null;
-    private String mBookPrice = null;
-    private String mPurchaseDate = null;
+    private Bitmap image = null;
+    private String title = null;
+    private String price = null;
+    private String date = null;
 
     public Book() {};
 
     public Book(Bitmap bookImage, String bookTitle, String bookPrice, String purchaseDate) {
-        mBookImage = bookImage;
-        mBookTitle = bookTitle;
-        mBookPrice = bookPrice;
-        mPurchaseDate = purchaseDate;
+        image = bookImage;
+        title = bookTitle;
+        price = bookPrice;
+        date = purchaseDate;
     }
 
     public void setBookImage(Bitmap bookImage) {
-        mBookImage = bookImage;
+        image = bookImage;
     }
 
     public void setBookTitle(String bookTitle) {
-        mBookTitle = bookTitle;
+        title = bookTitle;
     }
 
     public void setBookPrice(String bookPrice) {
-        mBookPrice = bookPrice;
+        price = bookPrice;
     }
 
     public void setPurchaseDate(String purchaseDate) {
-        mPurchaseDate = purchaseDate;
+        date = purchaseDate;
     }
 
     public Bitmap getBookImage() {
-        return mBookImage;
+        return image;
     }
 
     public String getBookTitle() {
-        return mBookTitle;
+        return title;
     }
 
     public String getBookPrice() {
-        return mBookPrice;
+        return price;
     }
 
     public String getPurchaseDate() {
-        return mPurchaseDate;
+        return date;
     }
 
 
