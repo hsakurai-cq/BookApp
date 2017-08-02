@@ -49,18 +49,13 @@ public class AccountActivity extends AppCompatActivity {
                 String errorMessageString  = ValidationUtil.validateAccount(email, password, passwordConfirm, AccountActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
-                    //Todo アカウント作成処理
                     Log.i("Account validation", "OK");
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     UserApi api = retrofit.create(UserApi.class);
-                    //User user = new User(email, password);
-                    //Log.i("user", String.valueOf(user.getEmail()));
-                    //UserRequest userRequest = new UserRequest(user);
                     Call<UserResponse> call = api.signUp(new User(email, password));
-                    //Log.i("userRequest", String.valueOf(userRequest));
                     call.enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
@@ -75,7 +70,7 @@ public class AccountActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
                             Log.i("onFailure", String.valueOf(t));
-                        };
+                        }
                     });
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, AccountActivity.this);

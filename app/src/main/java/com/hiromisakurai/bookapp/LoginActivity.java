@@ -10,7 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LoginActivity extends AppCompatActivity {
+    private static final String BASE_URL = "http://54.238.252.116";
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -36,8 +43,31 @@ public class LoginActivity extends AppCompatActivity {
                 //Log.i("errorMessageString", String.valueOf(errorMessageString));
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
+                    Log.i("Login validation", "OK");
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    UserApi api = retrofit.create(UserApi.class);
+                    Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
+                    call.enqueue(new Callback<UserResponse>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            if (response.isSuccessful()) {
+                                Log.i("Success, Token is ", String.valueOf(response.body().getRequestToken()));
+                                Log.i("Success, ID is ", String.valueOf(response.body().getUserId()));
+                                Intent intent = new Intent(getApplication(), MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Log.i("Cannot login", String.valueOf(response));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            Log.i("onFailure", String.valueOf(t));
+                        }
+                    });
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
                 }
