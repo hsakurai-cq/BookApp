@@ -9,7 +9,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class AccountActivity extends AppCompatActivity {
+    private static final String BASE_URL = "http://54.238.252.116";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +42,41 @@ public class AccountActivity extends AppCompatActivity {
                 EditText passwordET = (EditText) findViewById(R.id.accountPasswordEditText);
                 EditText passwordConfirmET = (EditText) findViewById(R.id.accountPasswordConfirmEditText);
 
-                String signUpEmail = emailET.getText().toString();
-                String signUpPassword = passwordET.getText().toString();
-                String signUpPasswordConfirm = passwordConfirmET.getText().toString();
+                String email = emailET.getText().toString();
+                String password = passwordET.getText().toString();
+                String passwordConfirm = passwordConfirmET.getText().toString();
 
-                String errorMessageString  = ValidationUtil.validateAccount(signUpEmail, signUpPassword, signUpPasswordConfirm, AccountActivity.this);
+                String errorMessageString  = ValidationUtil.validateAccount(email, password, passwordConfirm, AccountActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
                     //Todo アカウント作成処理
                     Log.i("Account validation", "OK");
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    UserApi api = retrofit.create(UserApi.class);
+                    //User user = new User(email, password);
+                    //Log.i("user", String.valueOf(user.getEmail()));
+                    //UserRequest userRequest = new UserRequest(user);
+                    Call<UserResponse> call = api.signUp(new User(email, password));
+                    //Log.i("userRequest", String.valueOf(userRequest));
+                    call.enqueue(new Callback<UserResponse>() {
+                        @Override
+                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                            if (response.isSuccessful()) {
+                                Log.i("Success, Token is ", String.valueOf(response.body().getRequestToken()));
+                                Log.i("Success, ID is ", String.valueOf(response.body().getUserId()));
+                            } else {
+                                Log.i("Cannot login", String.valueOf(response));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            Log.i("onFailure", String.valueOf(t));
+                        };
+                    });
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, AccountActivity.this);
                 }
