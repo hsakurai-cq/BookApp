@@ -3,7 +3,7 @@ package com.hiromisakurai.bookapp;
 public class BookListItem {
 
     private int id;
-    private String image_data;
+    private String image_url;
     private String name;
     private int price;
     private String purchase_date;
@@ -12,7 +12,7 @@ public class BookListItem {
 
     public BookListItem(int id, String image, String title, int price, String purchaseDate) {
         this.id = id;
-        this.image_data = image;
+        this.image_url = image;
         this.name = title;
         this.price = price;
         this.purchase_date = purchaseDate;
@@ -23,7 +23,7 @@ public class BookListItem {
     }
 
     public String getImage() {
-        return image_data;
+        return image_url;
     }
 
     public String getTitle() {
