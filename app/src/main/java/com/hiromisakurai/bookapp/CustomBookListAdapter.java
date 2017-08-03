@@ -36,19 +36,19 @@ public class CustomBookListAdapter extends ArrayAdapter<BookListItem> {
             view = mInflater.inflate(mResource, null);
         }
 
-        BookListItem book = mBooks.get(position);
+        BookListItem bookListItem = mBooks.get(position);
 
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView.setImageBitmap(book.getImage());
+        //imageView.setImageBitmap(book.getImage());
 
         TextView title = (TextView) view.findViewById(R.id.bookTitle);
-        title.setText(book.getTitle());
+        title.setText(bookListItem.getTitle());
 
         TextView price = (TextView) view.findViewById(R.id.bookPrice);
-        price.setText(book.getPrice());
+        price.setText(String.valueOf(bookListItem.getPrice()));
 
         TextView date = (TextView) view.findViewById(R.id.purchaseDate);
-        date.setText(book.getPurchaseDate());
+        date.setText(bookListItem.getPurchaseDate());
 
         return view;
     }

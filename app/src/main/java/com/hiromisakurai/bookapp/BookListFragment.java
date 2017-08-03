@@ -2,8 +2,6 @@ package com.hiromisakurai.bookapp;
 
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,6 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class BookListFragment extends Fragment {
     private static final String BASE_URL = "http://54.238.252.116";
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,7 +42,8 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
-        ListView listView = view.findViewById(R.id.list_book);
+        final ListView listView = view.findViewById(R.id.list_book);
+
 
         SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
@@ -60,7 +59,12 @@ public class BookListFragment extends Fragment {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
                 if (response.isSuccessful()) {
-                    Log.i("Success, result is ", String.valueOf(response.body()));
+
+                    List<BookListItem> listItems = response.body().result;
+                    Log.i("BookListItems -> ", String.valueOf(listItems));
+
+                    CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
+                    listView.setAdapter(adapter);
                 } else {
                     Log.i("Cannot Fetch Book", String.valueOf(response));
                 }
@@ -72,16 +76,6 @@ public class BookListFragment extends Fragment {
             }
         });
 
-        List<BookListItem> listItems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            BookListItem item = new BookListItem(bmp, "Book title No. " + String.valueOf(i), "book price " + String.valueOf(i), "2017-07- 0" + String.valueOf(i));
-            listItems.add(item);
-        }
-
-        CustomBookListAdapter adapter = new CustomBookListAdapter(this.getContext(), R.layout.custom_book_list, listItems);
-        listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -91,9 +85,9 @@ public class BookListFragment extends Fragment {
                 BookListItem book = (BookListItem) listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
+                //bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
                 bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getTitle());
-                bundle.putString(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());
+                bundle.putInt(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());
                 bundle.putString(Constants.BundleKey.BUNDLE_DATE, book.getPurchaseDate());
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
