@@ -3,7 +3,9 @@ package com.hiromisakurai.bookapp;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +22,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class AddBookActivity extends AppCompatActivity implements OnDateDialogClickListener {
+    private static final String BASE_URL = "http://54.238.252.116";
     private static final int READ_REQUEST_CODE = 42;
     private static final String DIALOG_KEY = "DatePicker";
     private static final String IMAGE_TYPE = "image/*";
@@ -68,13 +80,44 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 Drawable bookImg = bookIV.getDrawable();
                 String titleStr = titleET.getText().toString();
                 String priceStr = priceET.getText().toString();
+
                 String dateStr = dateET.getText().toString();
+
+
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
+                    Log.i("Add Book validation", "OK");
+                    int priceInt = Integer.parseInt(priceStr);
+                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                    String decoded = encodeToBase64(bitmapImage);
+                    Log.i("decoded", String.valueOf(decoded));
+
+                    SharedPreferences pref = getSharedPreferences("DataStore", MODE_PRIVATE);
+                    int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+                    //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    BookApi api = retrofit.create(BookApi.class);
+                    Call<BookResponse> call = api.addBook(new Book(userId, decoded, titleStr, priceInt, dateStr));
+                    call.enqueue(new Callback<BookResponse>() {
+                        @Override
+                        public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                            if (response.isSuccessful()) {
+                                Log.i("Success, book_id is ", String.valueOf(response.body().getBookId()));
+                                finish();
+                            } else {
+                                Log.i("Cannot Add Book", String.valueOf(response));
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<BookResponse> call, Throwable t) {
+                            Log.i("onFailure", String.valueOf(t));
+                        }
+                    });
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
                 }
@@ -125,5 +168,12 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 }
             }
         }
+    }
+
+    public static String encodeToBase64(Bitmap image) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        byte[] b = bos.toByteArray();
+        return Base64.encodeToString(b,Base64.DEFAULT);
     }
 }

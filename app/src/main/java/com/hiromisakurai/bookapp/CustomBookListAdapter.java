@@ -11,17 +11,17 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class CustomBookListAdapter extends ArrayAdapter<Book> {
+public class CustomBookListAdapter extends ArrayAdapter<BookListItem> {
 
     private int mResource;
-    private List<Book> mBooks;
+    private List<BookListItem> mBooks;
     private LayoutInflater mInflater;
 
-    public CustomBookListAdapter(Context context, int resource, List<Book> books) {
-        super(context, resource, books);
+    public CustomBookListAdapter(Context context, int resource, List<BookListItem> items) {
+        super(context, resource, items);
 
         mResource = resource;
-        mBooks = books;
+        mBooks = items;
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -36,16 +36,16 @@ public class CustomBookListAdapter extends ArrayAdapter<Book> {
             view = mInflater.inflate(mResource, null);
         }
 
-        Book book = mBooks.get(position);
+        BookListItem book = mBooks.get(position);
 
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView.setImageBitmap(book.getBookImage());
+        imageView.setImageBitmap(book.getImage());
 
         TextView title = (TextView) view.findViewById(R.id.bookTitle);
-        title.setText(book.getBookTitle());
+        title.setText(book.getTitle());
 
         TextView price = (TextView) view.findViewById(R.id.bookPrice);
-        price.setText(book.getBookPrice());
+        price.setText(book.getPrice());
 
         TextView date = (TextView) view.findViewById(R.id.purchaseDate);
         date.setText(book.getPurchaseDate());

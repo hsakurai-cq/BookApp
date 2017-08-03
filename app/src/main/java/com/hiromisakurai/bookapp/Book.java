@@ -1,53 +1,55 @@
 package com.hiromisakurai.bookapp;
 
-import android.graphics.Bitmap;
-
-
 public class Book {
-    private Bitmap image = null;
-    private String title = null;
-    private String price = null;
-    private String date = null;
 
-    public Book() {};
+    private int user_id;
+    private String image_data;
+    private String name;
+    private int price;
+    private String purchase_date;
 
-    public Book(Bitmap bookImage, String bookTitle, String bookPrice, String purchaseDate) {
-        image = bookImage;
-        title = bookTitle;
-        price = bookPrice;
-        date = purchaseDate;
+    public Book(int userId, String bookImage, String bookTitle, int bookPrice, String purchaseDate) {
+        this.user_id = userId;
+        this.image_data = bookImage;
+        this.name = bookTitle;
+        this.price = bookPrice;
+        this.purchase_date = purchaseDate;
     }
 
-    public void setBookImage(Bitmap bookImage) {
-        image = bookImage;
+    public void setBookImage(String bookImage) {
+        image_data = bookImage;
     }
 
     public void setBookTitle(String bookTitle) {
-        title = bookTitle;
+        name = bookTitle;
     }
 
-    public void setBookPrice(String bookPrice) {
+    public void setBookPrice(int bookPrice) {
         price = bookPrice;
     }
 
     public void setPurchaseDate(String purchaseDate) {
-        date = purchaseDate;
+        purchaseDate = purchaseDate;
     }
 
-    public Bitmap getBookImage() {
-        return image;
+    public int getUserId() {
+        return user_id;
+    }
+
+    public String getBookImage() {
+        return image_data;
     }
 
     public String getBookTitle() {
-        return title;
+        return name;
     }
 
-    public String getBookPrice() {
+    public int getBookPrice() {
         return price;
     }
 
     public String getPurchaseDate() {
-        return date;
+        return purchase_date;
     }
 
 

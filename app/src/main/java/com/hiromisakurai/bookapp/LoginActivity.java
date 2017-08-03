@@ -60,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
 
                                 SharedPreferences dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = dataStore.edit();
-                                editor.putString("request_token", response.body().getRequestToken());
-                                editor.putInt("user_id", response.body().getUserId());
-                                editor.commit();
-                                Log.i("data store, token ", String.valueOf(dataStore.getString("request_token", "noting")));
-                                Log.i("data store, id ", String.valueOf(dataStore.getInt("user_id", 0)));
+                                editor.putString(Constants.PrefKey.REQUEST_TOKEN, response.body().getRequestToken());
+                                editor.putInt(Constants.PrefKey.USER_ID, response.body().getUserId());
+                                editor.apply();
+                                Log.i("data store, token ", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
+                                Log.i("data store, id ", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
 
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);

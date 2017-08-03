@@ -37,11 +37,11 @@ public class BookListFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.list_book);
 
-        List<Book> listItems = new ArrayList<>();
+        List<BookListItem> listItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            Book book = new Book(bmp, "Book title No. " + String.valueOf(i), "book price " + String.valueOf(i), "2017-07- 0" + String.valueOf(i));
-            listItems.add(book);
+            BookListItem item = new BookListItem(bmp, "Book title No. " + String.valueOf(i), "book price " + String.valueOf(i), "2017-07- 0" + String.valueOf(i));
+            listItems.add(item);
         }
 
         CustomBookListAdapter adapter = new CustomBookListAdapter(this.getContext(), R.layout.custom_book_list, listItems);
@@ -53,12 +53,12 @@ public class BookListFragment extends Fragment {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 EditBookFragment edit = new EditBookFragment();
                 ListView listView = (ListView)parent;
-                Book book = (Book)listView.getItemAtPosition(position);
+                BookListItem book = (BookListItem) listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getBookImage());
-                bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getBookTitle());
-                bundle.putString(Constants.BundleKey.BUNDLE_PRICE, book.getBookPrice());
+                bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
+                bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getTitle());
+                bundle.putString(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());
                 bundle.putString(Constants.BundleKey.BUNDLE_DATE, book.getPurchaseDate());
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
