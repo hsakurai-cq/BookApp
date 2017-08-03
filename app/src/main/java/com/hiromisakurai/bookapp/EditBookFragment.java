@@ -23,9 +23,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import java.io.IOException;
+import com.bumptech.glide.Glide;
 
-import static com.hiromisakurai.bookapp.R.id.bookImage;
+import java.io.IOException;
 
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
 
@@ -51,24 +51,25 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_edit);
 
         Bundle bundle = getArguments();
-        Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
+        //Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
         //Log.i("image bitmap", String.valueOf(img));
+
         String title = bundle.getString(Constants.BundleKey.BUNDLE_TITLE);
-        String price = bundle.getString(Constants.BundleKey.BUNDLE_PRICE);
+        int price = bundle.getInt(Constants.BundleKey.BUNDLE_PRICE);
         String purchaseDate = bundle.getString(Constants.BundleKey.BUNDLE_DATE);
 
-        ImageView iv = (ImageView)view.findViewById(bookImage);
+        ImageView iv = (ImageView)view.findViewById(R.id.bookImage);
         EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
         EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
         EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
 
-        iv.setImageBitmap(img);
+        Glide.with(getActivity()).load(bundle.getString(Constants.BundleKey.BUNDLE_IMAGE)).into(iv);
         titleEdit.setText(title);
-        priceEdit.setText(price);
+        priceEdit.setText(String.valueOf(price));
         dateEdit.setText(purchaseDate);
 
         saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
-        imageView = (ImageView)view.findViewById(R.id.bookImage);
+        //imageView = (ImageView)view.findViewById(R.id.bookImage);
 
         saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
