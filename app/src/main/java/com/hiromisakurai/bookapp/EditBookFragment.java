@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import static com.hiromisakurai.bookapp.R.id.bookImage;
 
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
 
+    private static final String BASE_URL = "http://54.238.252.116";
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
@@ -104,8 +106,20 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(intent);
+                    Log.i("Add Book validation", "OK");
+                    //Todo 書籍編集処理
+//                    int priceInt = Integer.parseInt(priceStr);
+//                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+//                    String decoded = encodeToBase64(bitmapImage);
+//
+//                    Retrofit retrofit = new Retrofit.Builder()
+//                            .baseUrl(BASE_URL)
+//                            .addConverterFactory(GsonConverterFactory.create())
+//                            .build();
+//                    BookApi api = retrofit.create(BookApi.class);
+//                    Call<JsonObject> call = api.editBook()
+//                    Intent intent = new Intent(getActivity(), MainActivity.class);
+//                    startActivity(intent);
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
                 }

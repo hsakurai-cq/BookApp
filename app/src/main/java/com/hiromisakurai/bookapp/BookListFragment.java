@@ -1,6 +1,7 @@
 package com.hiromisakurai.bookapp;
 
 
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,8 +20,17 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class BookListFragment extends Fragment {
+    private static final String BASE_URL = "http://54.238.252.116";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,8 +44,33 @@ public class BookListFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
-
         ListView listView = view.findViewById(R.id.list_book);
+
+        SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
+        int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+
+        //API通信開始
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        BookApi api = retrofit.create(BookApi.class);
+        Call<FetchBookResponse> call = api.fetchBook(userId, "0-200");
+        call.enqueue(new Callback<FetchBookResponse>() {
+            @Override
+            public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.i("Success, result is ", String.valueOf(response.body()));
+                } else {
+                    Log.i("Cannot Fetch Book", String.valueOf(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchBookResponse> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
 
         List<BookListItem> listItems = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

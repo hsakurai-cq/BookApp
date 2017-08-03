@@ -51,6 +51,4 @@ public class Book {
     public String getPurchaseDate() {
         return purchase_date;
     }
-
-
 }

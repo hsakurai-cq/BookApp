@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.gson.JsonObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -80,10 +82,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 Drawable bookImg = bookIV.getDrawable();
                 String titleStr = titleET.getText().toString();
                 String priceStr = priceET.getText().toString();
-
                 String dateStr = dateET.getText().toString();
-
-
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
@@ -92,7 +91,6 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     int priceInt = Integer.parseInt(priceStr);
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
                     String decoded = encodeToBase64(bitmapImage);
-                    Log.i("decoded", String.valueOf(decoded));
 
                     SharedPreferences pref = getSharedPreferences("DataStore", MODE_PRIVATE);
                     int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
@@ -102,19 +100,19 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     BookApi api = retrofit.create(BookApi.class);
-                    Call<BookResponse> call = api.addBook(new Book(userId, decoded, titleStr, priceInt, dateStr));
-                    call.enqueue(new Callback<BookResponse>() {
+                    Call<JsonObject> call = api.addBook(new Book(userId, decoded, titleStr, priceInt, dateStr));
+                    call.enqueue(new Callback<JsonObject>() {
                         @Override
-                        public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             if (response.isSuccessful()) {
-                                Log.i("Success, book_id is ", String.valueOf(response.body().getBookId()));
+                                Log.i("Success, book_id is ", String.valueOf(response.body()));
                                 finish();
                             } else {
                                 Log.i("Cannot Add Book", String.valueOf(response));
                             }
                         }
                         @Override
-                        public void onFailure(Call<BookResponse> call, Throwable t) {
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
                             Log.i("onFailure", String.valueOf(t));
                         }
                     });
