@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -48,7 +51,14 @@ public class CustomBookListAdapter extends ArrayAdapter<BookListItem> {
         price.setText(String.valueOf(bookListItem.getPrice()));
 
         TextView date = (TextView) view.findViewById(R.id.purchaseDate);
-        date.setText(bookListItem.getPurchaseDate());
+        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MM yyyy HH:mm:ss Z");
+        try {
+            Date dateFromString = format.parse(bookListItem.getPurchaseDate());
+            String stringFromDate = new SimpleDateFormat("yyyy-MM-dd").format(dateFromString);
+            date.setText(stringFromDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return view;
     }

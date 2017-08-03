@@ -29,7 +29,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class BookListFragment extends Fragment {
     private static final String BASE_URL = "http://54.238.252.116";
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
