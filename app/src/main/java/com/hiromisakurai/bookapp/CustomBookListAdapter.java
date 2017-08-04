@@ -1,6 +1,8 @@
 package com.hiromisakurai.bookapp;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +55,20 @@ public class CustomBookListAdapter extends ArrayAdapter<BookListItem> {
         price.setText(String.valueOf(bookListItem.getPrice()));
 
         TextView dateEditText = (TextView) view.findViewById(R.id.purchaseDate);
+        String time = bookListItem.getPurchaseDate();
+        Log.i("time", String.valueOf(time));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
         try {
-            Date date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(bookListItem.getPurchaseDate());
-            String stringFromDate =  new SimpleDateFormat("yyyy-MM-dd").format(date);
-            dateEditText.setText(stringFromDate);
+            if (TextUtils.isEmpty(time)) {
+                time = "2000-01-01";
+                dateEditText.setText(time);
+            }else {
+                Date date = dateFormat.parse(time);
+                String stringFromDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                dateEditText.setText(stringFromDate);
+            }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.i("Parse error", String.valueOf(e));
         }
 
         return view;

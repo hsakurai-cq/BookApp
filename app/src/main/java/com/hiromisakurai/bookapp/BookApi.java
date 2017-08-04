@@ -19,6 +19,6 @@ public interface BookApi {
     @POST("/books")
     Call<JsonObject> addBook(@Body Book book);
 
-    @PATCH("/books{id}")
+    @PATCH("/books/{id}")
     Call<JsonObject> editBook(@Path("id") int bookId, @Body EditBookRequest editBookRequest);
 }

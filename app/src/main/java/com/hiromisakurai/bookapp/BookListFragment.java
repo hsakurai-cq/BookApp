@@ -3,7 +3,6 @@ package com.hiromisakurai.bookapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +36,7 @@ public class BookListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
@@ -53,12 +52,11 @@ public class BookListFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         BookApi api = retrofit.create(BookApi.class);
-        Call<FetchBookResponse> call = api.fetchBook(userId, "0-200");
+        Call<FetchBookResponse> call = api.fetchBook(userId, "0-300");
         call.enqueue(new Callback<FetchBookResponse>() {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
                 if (response.isSuccessful()) {
-
                     List<BookListItem> listItems = response.body().result;
                     Log.i("BookListItems -> ", String.valueOf(listItems));
 

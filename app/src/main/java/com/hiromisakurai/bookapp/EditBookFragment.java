@@ -45,11 +45,11 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
     private static final String DIALOG_KEY = "DatePicker";
     private Button saveImageButton;
 
-    ImageView imageView;
-    EditText titleEditText;
-    EditText priceEditText;
-    EditText dateEditText;
-    int bookId;
+    private ImageView imageView;
+    private EditText titleEditText;
+    private EditText priceEditText;
+    private EditText dateEditText;
+    private int bookId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,7 +122,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
-                    Log.i("Add Book validation", "OK");
+                    Log.i("Edit Book validation", "OK");
                     //Todo 書籍編集処理
                     int priceInt = Integer.parseInt(priceStr);
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
@@ -139,6 +139,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             if (response.isSuccessful()) {
                                 Log.i("Success, book_id is ", String.valueOf(response.body()));
+                                getFragmentManager().popBackStack();
                             } else {
                                 Log.i("Cannot Add Book", String.valueOf(response));
                             }
@@ -149,8 +150,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                             Log.i("onFailure", String.valueOf(t));
                         }
                     });
-//                    Intent intent = new Intent(getActivity(), MainActivity.class);
-//                    startActivity(intent);
+
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
                 }
