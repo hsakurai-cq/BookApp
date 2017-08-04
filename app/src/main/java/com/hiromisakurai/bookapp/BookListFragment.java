@@ -104,8 +104,6 @@ public class BookListFragment extends Fragment {
                 //ToDo ListView更新処理
                 Log.i("Load More Button", "onClick");
 
-                //final ListView listView = view.findViewById(R.id.list_book);
-
                 SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
                 int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
