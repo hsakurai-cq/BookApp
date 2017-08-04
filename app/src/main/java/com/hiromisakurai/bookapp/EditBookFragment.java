@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
@@ -61,9 +62,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_edit);
 
         Bundle bundle = getArguments();
-        //Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
-        //Log.i("image bitmap", String.valueOf(img));
-
         bookId = bundle.getInt(Constants.BundleKey.BUNDLE_ID);
         String title = bundle.getString(Constants.BundleKey.BUNDLE_TITLE);
         int price = bundle.getInt(Constants.BundleKey.BUNDLE_PRICE);
@@ -126,6 +124,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             if (response.isSuccessful()) {
                                 Log.i("Success, book_id is ", String.valueOf(response.body()));
+                                Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
                                 getFragmentManager().popBackStack();
                             } else {
                                 Log.i("Cannot Add Book", String.valueOf(response));

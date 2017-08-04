@@ -60,7 +60,6 @@ public class AccountActivity extends AppCompatActivity {
                                 Log.i("Cannot login", String.valueOf(response));
                             }
                         }
-
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
                             Log.i("onFailure", String.valueOf(t));

@@ -33,4 +33,7 @@
     <string name="menu_edit_item_title">icon_action_edit</string>
     <string name="menu_main_item_title">icon_action_add</string>
     <string name="button_load_more">Load More</string>
+
+    <string name="toast_success_add_book">Succeeded Adding Book!</string>
+    <string name="toast_success_edit_book">Succeeded Editing Book!</string>
 </resources>

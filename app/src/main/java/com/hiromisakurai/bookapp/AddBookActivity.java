@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -100,6 +101,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             if (response.isSuccessful()) {
                                 Log.i("Success, book_id is ", String.valueOf(response.body()));
+                                Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
                                 Log.i("Cannot Add Book", String.valueOf(response));
