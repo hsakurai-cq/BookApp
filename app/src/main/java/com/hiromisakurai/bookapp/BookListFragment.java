@@ -124,6 +124,7 @@ public class BookListFragment extends Fragment {
                             List<BookListItem> listItems = response.body().result;
                             CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                             listView.setAdapter(adapter);
+                            listView.setSelection(listItems.size());
                         } else {
                             Log.i("Cannot Fetch Book", String.valueOf(response));
                         }
