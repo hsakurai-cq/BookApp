@@ -12,11 +12,8 @@ import android.widget.EditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AccountActivity extends AppCompatActivity {
-    private static final String BASE_URL = "http://54.238.252.116";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +47,8 @@ public class AccountActivity extends AppCompatActivity {
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
                     Log.i("Account validation", "OK");
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    UserApi api = retrofit.create(UserApi.class);
+
+                    UserApi api = Client.setUp().create(UserApi.class);
                     Call<UserResponse> call = api.signUp(new User(email, password));
                     call.enqueue(new Callback<UserResponse>() {
                         @Override

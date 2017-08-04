@@ -32,14 +32,10 @@ import java.io.IOException;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.hiromisakurai.bookapp.AddBookActivity.encodeToBase64;
 
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
-
-    private static final String BASE_URL = "http://54.238.252.116";
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
@@ -123,11 +119,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
                     String decoded = encodeToBase64(bitmapImage);
 
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(BASE_URL)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    BookApi api = retrofit.create(BookApi.class);
+                    BookApi api = Client.setUp().create(BookApi.class);
                     Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
                     call.enqueue(new Callback<JsonObject>() {
                         @Override

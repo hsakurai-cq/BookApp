@@ -19,14 +19,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
 public class BookListFragment extends Fragment {
-    private static final String BASE_URL = "http://54.238.252.116";
     private int page = 180;
 
     @Override
@@ -47,11 +44,7 @@ public class BookListFragment extends Fragment {
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
         //API通信開始
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        BookApi api = retrofit.create(BookApi.class);
+        BookApi api = Client.setUp().create(BookApi.class);
         Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
         page++;
         call.enqueue(new Callback<FetchBookResponse>() {
@@ -105,11 +98,7 @@ public class BookListFragment extends Fragment {
                 int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
                 //API通信開始
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                BookApi api = retrofit.create(BookApi.class);
+                BookApi api = Client.setUp().create(BookApi.class);
                 Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
                 page++;
                 call.enqueue(new Callback<FetchBookResponse>() {
