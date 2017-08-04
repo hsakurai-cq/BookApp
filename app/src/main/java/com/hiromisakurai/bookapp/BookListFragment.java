@@ -27,6 +27,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class BookListFragment extends Fragment {
     private static final String BASE_URL = "http://54.238.252.116";
+    private int page = 180;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +43,6 @@ public class BookListFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
         final ListView listView = view.findViewById(R.id.list_book);
 
-
         SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
@@ -52,13 +52,14 @@ public class BookListFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         BookApi api = retrofit.create(BookApi.class);
-        Call<FetchBookResponse> call = api.fetchBook(userId, "0-300");
+        Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
+        page++;
         call.enqueue(new Callback<FetchBookResponse>() {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
                 if (response.isSuccessful()) {
                     List<BookListItem> listItems = response.body().result;
-                    Log.i("BookListItems -> ", String.valueOf(listItems));
+                    //Log.i("BookListItems -> ", String.valueOf(listItems));
 
                     CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                     listView.setAdapter(adapter);
@@ -102,6 +103,37 @@ public class BookListFragment extends Fragment {
             public void onClick(View view) {
                 //ToDo ListView更新処理
                 Log.i("Load More Button", "onClick");
+
+                //final ListView listView = view.findViewById(R.id.list_book);
+
+                SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
+                int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+
+                //API通信開始
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                BookApi api = retrofit.create(BookApi.class);
+                Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
+                page++;
+                call.enqueue(new Callback<FetchBookResponse>() {
+                    @Override
+                    public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
+                        if (response.isSuccessful()) {
+                            List<BookListItem> listItems = response.body().result;
+                            CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
+                            listView.setAdapter(adapter);
+                        } else {
+                            Log.i("Cannot Fetch Book", String.valueOf(response));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FetchBookResponse> call, Throwable t) {
+                        Log.i("onFailure", String.valueOf(t));
+                    }
+                });
             }
         });
     }
