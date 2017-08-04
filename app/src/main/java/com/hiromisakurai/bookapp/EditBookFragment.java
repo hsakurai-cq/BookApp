@@ -43,7 +43,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
-    private Button saveImageButton;
 
     private ImageView imageView;
     private EditText titleEditText;
@@ -84,7 +83,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         priceEditText.setText(String.valueOf(price));
         dateEditText.setText(purchaseDate);
 
-        saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
+        Button saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
         saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,10 +108,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         switch (item.getItemId()) {
             case R.id.action_edit:
                 Log.i("action_edit", String.valueOf(item.getItemId()));
-//                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
-//                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
-//                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
-//                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
 
                 Drawable bookImg = imageView.getDrawable();
                 String titleStr = titleEditText.getText().toString();
@@ -123,7 +118,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
                     Log.i("Edit Book validation", "OK");
-                    //Todo 書籍編集処理
+
                     int priceInt = Integer.parseInt(priceStr);
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
                     String decoded = encodeToBase64(bitmapImage);

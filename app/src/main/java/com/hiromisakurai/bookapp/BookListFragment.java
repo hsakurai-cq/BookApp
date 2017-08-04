@@ -86,7 +86,8 @@ public class BookListFragment extends Fragment {
                 bundle.putString(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
                 bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getTitle());
                 bundle.putInt(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());
-                bundle.putString(Constants.BundleKey.BUNDLE_DATE, book.getPurchaseDate());
+                String date = DateUtil.changeFormat(book.getPurchaseDate());
+                bundle.putString(Constants.BundleKey.BUNDLE_DATE, date);
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
 
