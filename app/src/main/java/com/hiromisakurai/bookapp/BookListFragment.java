@@ -60,14 +60,12 @@ public class BookListFragment extends Fragment {
                 if (response.isSuccessful()) {
                     List<BookListItem> listItems = response.body().result;
                     //Log.i("BookListItems -> ", String.valueOf(listItems));
-
                     CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                     listView.setAdapter(adapter);
                 } else {
                     Log.i("Cannot Fetch Book", String.valueOf(response));
                 }
             }
-
             @Override
             public void onFailure(Call<FetchBookResponse> call, Throwable t) {
                 Log.i("onFailure", String.valueOf(t));
@@ -101,7 +99,6 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ToDo ListView更新処理
                 Log.i("Load More Button", "onClick");
 
                 SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);

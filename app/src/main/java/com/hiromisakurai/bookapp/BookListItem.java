@@ -8,8 +8,6 @@ public class BookListItem {
     private int price;
     private String purchase_date;
 
-    public BookListItem() {};
-
     public BookListItem(int id, String image, String title, int price, String purchaseDate) {
         this.id = id;
         this.image_url = image;
