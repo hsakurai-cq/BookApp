@@ -11,6 +11,7 @@
 
         <ImageView
             android:id="@+id/bookImage"
+            android:scaleType="centerCrop"
             android:layout_width="@dimen/form_image_width"
             android:layout_height="@dimen/form_image_height"
             android:layout_margin="@dimen/form_image_margin"
