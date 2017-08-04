@@ -55,16 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-//                                Log.i("Success, Token is ", String.valueOf(response.body().getRequestToken()));
-//                                Log.i("Success, ID is ", String.valueOf(response.body().getUserId()));
 
                                 SharedPreferences dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = dataStore.edit();
                                 editor.putString(Constants.PrefKey.REQUEST_TOKEN, response.body().getRequestToken());
                                 editor.putInt(Constants.PrefKey.USER_ID, response.body().getUserId());
                                 editor.apply();
-                                Log.i("data store, token ", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
-                                Log.i("data store, id ", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
+                                Log.i("Login Success, token ", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
+                                Log.i("Login Success, id ", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
 
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);

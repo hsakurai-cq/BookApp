@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_add) {
             Intent intent = new Intent(getApplication(), AddBookActivity.class);
             startActivity(intent);
+            Log.i("move to", "action_add");
             return true;
         }
         return super.onOptionsItemSelected(item);

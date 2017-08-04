@@ -52,12 +52,11 @@ public class CustomBookListAdapter extends ArrayAdapter<BookListItem> {
         TextView price = (TextView) view.findViewById(R.id.bookPrice);
         price.setText(String.valueOf(bookListItem.getPrice()));
 
-        TextView date = (TextView) view.findViewById(R.id.purchaseDate);
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MM yyyy HH:mm:ss Z");
+        TextView dateEditText = (TextView) view.findViewById(R.id.purchaseDate);
         try {
-            Date dateFromString = format.parse(bookListItem.getPurchaseDate());
-            String stringFromDate = new SimpleDateFormat("yyyy-MM-dd").format(dateFromString);
-            date.setText(stringFromDate);
+            Date date = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z").parse(bookListItem.getPurchaseDate());
+            String stringFromDate =  new SimpleDateFormat("yyyy-MM-dd").format(date);
+            dateEditText.setText(stringFromDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,8 +25,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.hiromisakurai.bookapp.AddBookActivity.encodeToBase64;
 
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
 
@@ -33,8 +43,13 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
-    private ImageView imageView;
     private Button saveImageButton;
+
+    ImageView imageView;
+    EditText titleEditText;
+    EditText priceEditText;
+    EditText dateEditText;
+    int bookId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,23 +69,22 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         //Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
         //Log.i("image bitmap", String.valueOf(img));
 
+        bookId = bundle.getInt(Constants.BundleKey.BUNDLE_ID);
         String title = bundle.getString(Constants.BundleKey.BUNDLE_TITLE);
         int price = bundle.getInt(Constants.BundleKey.BUNDLE_PRICE);
         String purchaseDate = bundle.getString(Constants.BundleKey.BUNDLE_DATE);
 
-        ImageView iv = (ImageView)view.findViewById(R.id.bookImage);
-        EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
-        EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
-        EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
+        imageView = (ImageView)view.findViewById(R.id.bookImage);
+        titleEditText = (EditText)view.findViewById(R.id.bookTitleEditText);
+        priceEditText = (EditText)view.findViewById(R.id.bookPriceEditText);
+        dateEditText  = (EditText)view.findViewById(R.id.purchaseDateEditText);
 
-        Glide.with(getActivity()).load(bundle.getString(Constants.BundleKey.BUNDLE_IMAGE)).into(iv);
-        titleEdit.setText(title);
-        priceEdit.setText(String.valueOf(price));
-        dateEdit.setText(purchaseDate);
+        Glide.with(getActivity()).load(bundle.getString(Constants.BundleKey.BUNDLE_IMAGE)).into(imageView);
+        titleEditText.setText(title);
+        priceEditText.setText(String.valueOf(price));
+        dateEditText.setText(purchaseDate);
 
         saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
-        //imageView = (ImageView)view.findViewById(R.id.bookImage);
-
         saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,31 +108,47 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
-                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
-                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
-                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
+                Log.i("action_edit", String.valueOf(item.getItemId()));
+//                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
+//                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
+//                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
+//                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
 
-                Drawable bookImg = bookIV.getDrawable();
-                String titleStr = titleET.getText().toString();
-                String priceStr = priceET.getText().toString();
-                String dateStr = dateET.getText().toString();
+                Drawable bookImg = imageView.getDrawable();
+                String titleStr = titleEditText.getText().toString();
+                String priceStr = priceEditText.getText().toString();
+                String dateStr = dateEditText.getText().toString();
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
                 boolean valid = TextUtils.isEmpty(errorMessageString);
                 if (valid) {
                     Log.i("Add Book validation", "OK");
                     //Todo 書籍編集処理
-//                    int priceInt = Integer.parseInt(priceStr);
-//                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
-//                    String decoded = encodeToBase64(bitmapImage);
-//
-//                    Retrofit retrofit = new Retrofit.Builder()
-//                            .baseUrl(BASE_URL)
-//                            .addConverterFactory(GsonConverterFactory.create())
-//                            .build();
-//                    BookApi api = retrofit.create(BookApi.class);
-//                    Call<JsonObject> call = api.editBook()
+                    int priceInt = Integer.parseInt(priceStr);
+                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                    String decoded = encodeToBase64(bitmapImage);
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    BookApi api = retrofit.create(BookApi.class);
+                    Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            if (response.isSuccessful()) {
+                                Log.i("Success, book_id is ", String.valueOf(response.body()));
+                            } else {
+                                Log.i("Cannot Add Book", String.valueOf(response));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Log.i("onFailure", String.valueOf(t));
+                        }
+                    });
 //                    Intent intent = new Intent(getActivity(), MainActivity.class);
 //                    startActivity(intent);
                 } else {

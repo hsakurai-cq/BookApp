@@ -84,6 +84,7 @@ public class BookListFragment extends Fragment {
                 BookListItem book = (BookListItem) listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
+                bundle.putInt(Constants.BundleKey.BUNDLE_ID, book.getId());
                 bundle.putString(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
                 bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getTitle());
                 bundle.putInt(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());

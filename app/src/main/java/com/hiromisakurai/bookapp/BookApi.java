@@ -18,8 +18,7 @@ public interface BookApi {
     //@Headers("Content-Type: application/json")
     @POST("/books")
     Call<JsonObject> addBook(@Body Book book);
-    //Call<BookResponse> addBook(@Body Book book);
 
     @PATCH("/books{id}")
-    Call<BookResponse> editBook(@Path("id") int bookId, @Body EditBookRequest editBookRequest);
+    Call<JsonObject> editBook(@Path("id") int bookId, @Body EditBookRequest editBookRequest);
 }
