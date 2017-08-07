@@ -49,13 +49,13 @@ public class BookListFragment extends Fragment {
         call.enqueue(new Callback<FetchBookResponse>() {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
-                if (response.isSuccessful()) {
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot Fetch Book", String.valueOf(response));
+                } else {
                     List<BookListItem> listItems = response.body().result;
                     //Log.i("BookListItems -> ", String.valueOf(listItems));
                     CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                     listView.setAdapter(adapter);
-                } else {
-                    Log.i("Cannot Fetch Book", String.valueOf(response));
                 }
             }
             @Override
@@ -103,13 +103,13 @@ public class BookListFragment extends Fragment {
                 call.enqueue(new Callback<FetchBookResponse>() {
                     @Override
                     public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
-                        if (response.isSuccessful()) {
+                        if (!response.isSuccessful()) {
+                            Log.i("Cannot Fetch Book", String.valueOf(response));
+                        } else {
                             List<BookListItem> listItems = response.body().result;
                             CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                             listView.setAdapter(adapter);
                             listView.setSelection(listItems.size());
-                        } else {
-                            Log.i("Cannot Fetch Book", String.valueOf(response));
                         }
                     }
 

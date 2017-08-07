@@ -97,12 +97,12 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
+                            if (!response.isSuccessful()) {
+                                Log.i("Cannot Add Book", String.valueOf(response));
+                            } else {
                                 Log.i("Success, book_id is ", String.valueOf(response.body()));
                                 Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
                                 finish();
-                            } else {
-                                Log.i("Cannot Add Book", String.valueOf(response));
                             }
                         }
                         @Override

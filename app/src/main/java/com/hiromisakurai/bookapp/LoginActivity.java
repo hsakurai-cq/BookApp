@@ -46,14 +46,14 @@ public class LoginActivity extends AppCompatActivity {
                     call.enqueue(new Callback<UserResponse>() {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                            if (response.isSuccessful()) {
+                            if (!response.isSuccessful()) {
+                                Log.i("Cannot login", String.valueOf(response));
+                            } else {
                                 String requestToken = response.body().getRequestToken();
                                 int userId = response.body().getUserId();
                                 SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);
-                            } else {
-                                Log.i("Cannot login", String.valueOf(response));
                             }
                         }
                         @Override
