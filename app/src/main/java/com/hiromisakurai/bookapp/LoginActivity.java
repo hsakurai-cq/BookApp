@@ -1,7 +1,6 @@
 package com.hiromisakurai.bookapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.AppLaunchChecker;
 import android.support.v7.app.AppCompatActivity;
@@ -48,15 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-
-                                SharedPreferences dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = dataStore.edit();
-                                editor.putString(Constants.PrefKey.REQUEST_TOKEN, response.body().getRequestToken());
-                                editor.putInt(Constants.PrefKey.USER_ID, response.body().getUserId());
-                                editor.apply();
-                                Log.i("Login Success, token ", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
-                                Log.i("Login Success, id ", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
-
+                                SharedPreferencesEditor.edit(response.body().getRequestToken(), response.body().getUserId(), LoginActivity.this);
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);
                             } else {

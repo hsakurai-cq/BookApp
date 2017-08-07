@@ -55,8 +55,7 @@ public class AccountActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-                                Log.i("Success, Token is ", String.valueOf(response.body().getRequestToken()));
-                                Log.i("Success, ID is ", String.valueOf(response.body().getUserId()));
+                                SharedPreferencesEditor.edit(response.body().getRequestToken(), response.body().getUserId(), AccountActivity.this);
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);
                                 Log.i("move to", "Main Activity");
