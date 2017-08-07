@@ -47,14 +47,15 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                             if (response.isSuccessful()) {
-                                SharedPreferencesEditor.edit(response.body().getRequestToken(), response.body().getUserId(), LoginActivity.this);
+                                String requestToken = response.body().getRequestToken();
+                                int userId = response.body().getUserId();
+                                SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
                                 Intent intent = new Intent(getApplication(), MainActivity.class);
                                 startActivity(intent);
                             } else {
                                 Log.i("Cannot login", String.valueOf(response));
                             }
                         }
-
                         @Override
                         public void onFailure(Call<UserResponse> call, Throwable t) {
                             Log.i("onFailure", String.valueOf(t));
