@@ -10,15 +10,18 @@ import java.util.Locale;
 
 public class DateUtil {
 
+    private static final String originalFormat = "EEE, dd MMM yyyy HH:mm:ss z";
+    private static final String displayFormat = "yyyy-MM-dd";
+
     public static String changeFormat(String time) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(originalFormat, Locale.ENGLISH);
         try {
             if (TextUtils.isEmpty(time)) {
                 time = "2000-01-01";
                 return time;
             }else {
                 Date date = dateFormat.parse(time);
-                return new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(date);
+                return new SimpleDateFormat(displayFormat, Locale.ENGLISH).format(date);
             }
         } catch (ParseException e) {
             Log.i("Parse error", String.valueOf(e));
