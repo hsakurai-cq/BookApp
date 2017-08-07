@@ -9,7 +9,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class SharedPreferencesEditor {
 
     public static void edit(String requestToken, int userId, Context context) {
-        SharedPreferences dataStore = context.getSharedPreferences("DataStore", MODE_PRIVATE);
+        SharedPreferences dataStore = context.getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
         SharedPreferences.Editor editor = dataStore.edit();
         editor.putString(Constants.PrefKey.REQUEST_TOKEN, requestToken);
         editor.putInt(Constants.PrefKey.USER_ID, userId);

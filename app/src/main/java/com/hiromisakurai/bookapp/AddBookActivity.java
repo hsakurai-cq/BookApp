@@ -88,7 +88,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
                     String decoded = EncodeImage.toBase64(bitmapImage);
 
-                    SharedPreferences pref = getSharedPreferences("DataStore", MODE_PRIVATE);
+                    SharedPreferences pref = getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
                     int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
                     //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
 

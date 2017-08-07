@@ -93,7 +93,7 @@ public class BookListFragment extends Fragment {
             public void onClick(View view) {
                 Log.i("Load More Button", "onClick");
 
-                SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
+                SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
                 int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
                 //API通信開始

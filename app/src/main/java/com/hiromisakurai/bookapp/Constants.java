@@ -10,6 +10,7 @@ public final class Constants {
     }
 
     public static class PrefKey {
+        public static final String DATA_STORE = "DataStore";
         public static final String REQUEST_TOKEN = "request_token";
         public static final String USER_ID = "user_id";
     }
