@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -88,7 +86,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     Log.i("Add Book validation", "OK");
                     int priceInt = Integer.parseInt(priceStr);
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
-                    String decoded = encodeToBase64(bitmapImage);
+                    String decoded = EncodeImage.toBase64(bitmapImage);
 
                     SharedPreferences pref = getSharedPreferences("DataStore", MODE_PRIVATE);
                     int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
@@ -162,12 +160,5 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 }
             }
         }
-    }
-
-    public static String encodeToBase64(Bitmap image) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, bos);
-        byte[] b = bos.toByteArray();
-        return Base64.encodeToString(b,Base64.DEFAULT);
     }
 }

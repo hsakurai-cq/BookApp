@@ -10,7 +10,6 @@ public class SharedPreferencesEditor {
 
     public static void edit(String requestToken, int userId, Context context) {
         SharedPreferences dataStore = context.getSharedPreferences("DataStore", MODE_PRIVATE);
-        //SharedPreferences dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
         SharedPreferences.Editor editor = dataStore.edit();
         editor.putString(Constants.PrefKey.REQUEST_TOKEN, requestToken);
         editor.putInt(Constants.PrefKey.USER_ID, userId);

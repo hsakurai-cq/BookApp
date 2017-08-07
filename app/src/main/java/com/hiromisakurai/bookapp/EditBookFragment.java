@@ -34,8 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.hiromisakurai.bookapp.AddBookActivity.encodeToBase64;
-
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
@@ -115,7 +113,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
                     int priceInt = Integer.parseInt(priceStr);
                     Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
-                    String decoded = encodeToBase64(bitmapImage);
+                    String decoded = EncodeImage.toBase64(bitmapImage);
 
                     BookApi api = Client.setUp().create(BookApi.class);
                     Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
@@ -151,6 +149,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         }
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         EditText txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
