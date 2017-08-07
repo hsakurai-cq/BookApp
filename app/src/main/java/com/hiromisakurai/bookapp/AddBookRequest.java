@@ -1,6 +1,6 @@
 package com.hiromisakurai.bookapp;
 
-public class Book {
+public class AddBookRequest {
 
     private int user_id;
     private String image_data;
@@ -8,7 +8,7 @@ public class Book {
     private int price;
     private String purchase_date;
 
-    public Book(int userId, String bookImage, String bookTitle, int bookPrice, String purchaseDate) {
+    public AddBookRequest(int userId, String bookImage, String bookTitle, int bookPrice, String purchaseDate) {
         this.user_id = userId;
         this.image_data = bookImage;
         this.name = bookTitle;

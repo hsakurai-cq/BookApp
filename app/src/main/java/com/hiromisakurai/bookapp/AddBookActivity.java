@@ -95,7 +95,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
 
                     BookApi api = Client.setUp().create(BookApi.class);
-                    Call<JsonObject> call = api.addBook(new Book(userId, decoded, titleStr, priceInt, dateStr));
+                    Call<JsonObject> call = api.addBook(new AddBookRequest(userId, decoded, titleStr, priceInt, dateStr));
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
