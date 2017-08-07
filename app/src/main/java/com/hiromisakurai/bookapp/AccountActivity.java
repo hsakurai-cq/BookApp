@@ -1,5 +1,6 @@
 package com.hiromisakurai.bookapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,9 @@ public class AccountActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 Log.i("Success, Token is ", String.valueOf(response.body().getRequestToken()));
                                 Log.i("Success, ID is ", String.valueOf(response.body().getUserId()));
+                                Intent intent = new Intent(getApplication(), MainActivity.class);
+                                startActivity(intent);
+                                Log.i("move to", "Main Activity");
                             } else {
                                 Log.i("Cannot login", String.valueOf(response));
                             }

@@ -43,7 +43,6 @@ public class BookListFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
-        //API通信開始
         BookApi api = Client.setUp().create(BookApi.class);
         Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
         page++;
