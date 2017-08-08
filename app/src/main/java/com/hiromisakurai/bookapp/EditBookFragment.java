@@ -120,12 +120,13 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                     call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (!response.isSuccessful()) {
-                                Log.i("Cannot Add Book", String.valueOf(response));
-                            } else {
+                            if (response.isSuccessful()) {
                                 Log.i("Success, book_id is ", String.valueOf(response.body()));
                                 Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
                                 getFragmentManager().popBackStack();
+                                return;
+                            } else {
+                                Log.i("Cannot Add Book", String.valueOf(response));
                             }
                         }
 
