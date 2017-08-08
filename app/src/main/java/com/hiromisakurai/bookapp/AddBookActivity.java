@@ -86,7 +86,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
                     return false;
                 }
-                Log.i("Add Book validation", "OK");
+                Log.i("formValidation", "OK");
                 int priceInt = Integer.parseInt(priceStr);
                 Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
                 String decoded = EncodeImage.toBase64(bitmapImage);
@@ -152,10 +152,9 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (!response.isSuccessful()) {
-                    Log.i("Cannot Add Book", String.valueOf(response));
+                    Log.i("onResponse", String.valueOf(response));
                     return;
                 }
-                Log.i("Success, book_id is ", String.valueOf(response.body()));
                 Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
                 finish();
             }

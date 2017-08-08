@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                     ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
                     return;
                 }
-                Log.i("Login validation", "OK");
+                Log.i("loginValidation", "OK");
                 UserApi api = Client.setUp().create(UserApi.class);
                 Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
                 enqueue(call);
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (!response.isSuccessful()) {
-                    Log.i("Cannot login", String.valueOf(response));
+                    Log.i("onResponse", String.valueOf(response));
                     return;
                 }
                 String requestToken = response.body().getRequestToken();

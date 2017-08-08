@@ -49,7 +49,7 @@ public class AccountActivity extends AppCompatActivity {
                 if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, AccountActivity.this);
                 }
-                Log.i("Account validation", "OK");
+                Log.i("accountValidation", "OK");
 
                 UserApi api = Client.setUp().create(UserApi.class);
                 Call<UserResponse> call = api.signUp(new User(email, password));
@@ -70,7 +70,7 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (!response.isSuccessful()) {
-                    Log.i("Cannot login", String.valueOf(response));
+                    Log.i("onResponse", String.valueOf(response));
                     return;
                 }
                 String requestToken = response.body().getRequestToken();
@@ -78,7 +78,6 @@ public class AccountActivity extends AppCompatActivity {
                 SharedPreferencesEditor.edit(requestToken, userId, AccountActivity.this);
                 Intent intent = new Intent(getApplication(), MainActivity.class);
                 startActivity(intent);
-                Log.i("move to", "Main Activity");
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {

@@ -15,7 +15,7 @@ public class SharedPreferencesEditor {
         editor.putInt(Constants.PrefKey.USER_ID, userId);
         editor.apply();
 
-        Log.i("Success, token ", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
-        Log.i("Success, id ", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
+        Log.i("token", String.valueOf(dataStore.getString(Constants.PrefKey.REQUEST_TOKEN, "noting")));
+        Log.i("id", String.valueOf(dataStore.getInt(Constants.PrefKey.USER_ID, 0)));
     }
 }

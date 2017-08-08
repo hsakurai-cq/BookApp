@@ -99,8 +99,6 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Log.i("action_edit", String.valueOf(item.getItemId()));
-
                 Drawable bookImg = imageView.getDrawable();
                 String titleStr = titleEditText.getText().toString();
                 String priceStr = priceEditText.getText().toString();
@@ -112,7 +110,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
                     return false;
                 }
-                Log.i("Edit Book validation", "OK");
+                Log.i("formValidation", "OK");
 
                 int priceInt = Integer.parseInt(priceStr);
                 Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
@@ -175,10 +173,10 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (!response.isSuccessful()) {
-                    Log.i("Cannot Edit Book", String.valueOf(response));
+                    Log.i("onResponse", String.valueOf(response));
                     return;
                 }
-                Log.i("Success, book_id is ", String.valueOf(response.body()));
+                Log.i("book_id", String.valueOf(response.body()));
                 Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
                 getFragmentManager().popBackStack();
             }

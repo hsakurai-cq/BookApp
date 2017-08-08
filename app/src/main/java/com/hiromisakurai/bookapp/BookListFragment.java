@@ -40,7 +40,7 @@ public class BookListFragment extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
+        SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
         BookApi api = Client.setUp().create(BookApi.class);
@@ -76,7 +76,7 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Load More Button", "onClick");
+                Log.i("loadMoreButton", "onClick");
 
                 SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
                 int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
@@ -94,7 +94,7 @@ public class BookListFragment extends Fragment {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
                 if (!response.isSuccessful()) {
-                    Log.i("Cannot Fetch Book", String.valueOf(response));
+                    Log.i("onResponse", String.valueOf(response));
                     return;
                 }
                 List<BookListItem> listItems = response.body().result;
