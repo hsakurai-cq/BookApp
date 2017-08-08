@@ -179,9 +179,8 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
                     Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStack();
                     return;
-                } else {
-                    Log.i("Cannot Add Book", String.valueOf(response));
                 }
+                Log.i("Cannot Edit Book", String.valueOf(response));
             }
 
             @Override

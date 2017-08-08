@@ -99,9 +99,9 @@ public class BookListFragment extends Fragment {
                     CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
                     listView.setAdapter(adapter);
                     listView.setSelection(listItems.size());
-                } else {
-                    Log.i("Cannot Fetch Book", String.valueOf(response));
+                    return;
                 }
+                Log.i("Cannot Fetch Book", String.valueOf(response));
             }
             @Override
             public void onFailure(Call<FetchBookResponse> call, Throwable t) {

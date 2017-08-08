@@ -77,9 +77,9 @@ public class AccountActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
                     Log.i("move to", "Main Activity");
-                } else {
-                    Log.i("Cannot login", String.valueOf(response));
+                    return;
                 }
+                Log.i("Cannot login", String.valueOf(response));
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {

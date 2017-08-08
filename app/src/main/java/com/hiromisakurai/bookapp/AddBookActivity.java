@@ -156,9 +156,8 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                     Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
                     finish();
                     return;
-                } else {
-                    Log.i("Cannot Add Book", String.valueOf(response));
                 }
+                Log.i("Cannot Add Book", String.valueOf(response));
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {

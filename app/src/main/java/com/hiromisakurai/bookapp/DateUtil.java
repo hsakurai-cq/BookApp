@@ -19,10 +19,9 @@ public class DateUtil {
             if (TextUtils.isEmpty(time)) {
                 time = "2000-01-01";
                 return time;
-            }else {
-                Date date = dateFormat.parse(time);
-                return new SimpleDateFormat(displayFormat, Locale.ENGLISH).format(date);
             }
+            Date date = dateFormat.parse(time);
+            return new SimpleDateFormat(displayFormat, Locale.ENGLISH).format(date);
         } catch (ParseException e) {
             Log.i("Parse error", String.valueOf(e));
         }

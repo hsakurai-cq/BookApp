@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
                     Intent intent = new Intent(getApplication(), MainActivity.class);
                     startActivity(intent);
-                } else {
-                    Log.i("Cannot login", String.valueOf(response));
+                    return;
                 }
+                Log.i("Cannot login", String.valueOf(response));
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
