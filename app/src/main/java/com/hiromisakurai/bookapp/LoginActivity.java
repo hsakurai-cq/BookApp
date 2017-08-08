@@ -43,24 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     UserApi api = Client.setUp().create(UserApi.class);
                     Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
-                    call.enqueue(new Callback<UserResponse>() {
-                        @Override
-                        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                            if (response.isSuccessful()) {
-                                String requestToken = response.body().getRequestToken();
-                                int userId = response.body().getUserId();
-                                SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
-                                Intent intent = new Intent(getApplication(), MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                Log.i("Cannot login", String.valueOf(response));
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<UserResponse> call, Throwable t) {
-                            Log.i("onFailure", String.valueOf(t));
-                        }
-                    });
+                    enqueue(call);
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
                 }
@@ -77,5 +60,26 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
         AppLaunchChecker.onActivityCreate(this);
+    }
+
+    private void enqueue(Call<UserResponse> call) {
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.isSuccessful()) {
+                    String requestToken = response.body().getRequestToken();
+                    int userId = response.body().getUserId();
+                    SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
+                    Intent intent = new Intent(getApplication(), MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Log.i("Cannot login", String.valueOf(response));
+                }
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }

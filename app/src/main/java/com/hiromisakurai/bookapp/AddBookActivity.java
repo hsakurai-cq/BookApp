@@ -94,23 +94,7 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
 
                     BookApi api = Client.setUp().create(BookApi.class);
                     Call<JsonObject> call = api.addBook(new AddBookRequest(userId, decoded, titleStr, priceInt, dateStr));
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
-                                Log.i("Success, book_id is ", String.valueOf(response.body()));
-                                Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
-                                finish();
-                                return;
-                            } else {
-                                Log.i("Cannot Add Book", String.valueOf(response));
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Log.i("onFailure", String.valueOf(t));
-                        }
-                    });
+                    enqueue(call);
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
                 }
@@ -161,5 +145,25 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 }
             }
         }
+    }
+
+    private void enqueue(Call<JsonObject> call) {
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.i("Success, book_id is ", String.valueOf(response.body()));
+                    Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                } else {
+                    Log.i("Cannot Add Book", String.valueOf(response));
+                }
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }

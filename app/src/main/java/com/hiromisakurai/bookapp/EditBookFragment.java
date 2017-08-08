@@ -117,25 +117,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
                     BookApi api = Client.setUp().create(BookApi.class);
                     Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
-                                Log.i("Success, book_id is ", String.valueOf(response.body()));
-                                Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
-                                getFragmentManager().popBackStack();
-                                return;
-                            } else {
-                                Log.i("Cannot Add Book", String.valueOf(response));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            Log.i("onFailure", String.valueOf(t));
-                        }
-                    });
-
+                    enqueue(call);
                 } else {
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
                 }
@@ -186,5 +168,26 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         EditText editText = (EditText) getActivity().findViewById(R.id.purchaseDateEditText);
         String dateStr = year + "-" + (month + 1) + "-" + day;
         editText.setText(dateStr);
+    }
+
+    private void enqueue(Call<JsonObject> call) {
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.i("Success, book_id is ", String.valueOf(response.body()));
+                    Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
+                    getFragmentManager().popBackStack();
+                    return;
+                } else {
+                    Log.i("Cannot Add Book", String.valueOf(response));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }
