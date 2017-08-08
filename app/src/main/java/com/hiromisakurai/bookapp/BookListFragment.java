@@ -1,10 +1,8 @@
 package com.hiromisakurai.bookapp;
 
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +14,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class BookListFragment extends Fragment {
+    private int page = 181;
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,36 +35,35 @@ public class BookListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
 
-        ListView listView = view.findViewById(R.id.list_book);
+        SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
+        int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
-        List<Book> listItems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            Book book = new Book(bmp, "Book title No. " + String.valueOf(i), "book price " + String.valueOf(i), "2017-07- 0" + String.valueOf(i));
-            listItems.add(book);
-        }
+        BookApi api = Client.setUp().create(BookApi.class);
+        Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
+        page++;
+        enqueue(call);
 
-        CustomBookListAdapter adapter = new CustomBookListAdapter(this.getContext(), R.layout.custom_book_list, listItems);
-        listView.setAdapter(adapter);
-
+        listView  = (ListView) view.findViewById(R.id.list_book);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 EditBookFragment edit = new EditBookFragment();
                 ListView listView = (ListView)parent;
-                Book book = (Book)listView.getItemAtPosition(position);
+                BookListItem book = (BookListItem) listView.getItemAtPosition(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.BundleKey.BUNDLE_IMAGE, book.getBookImage());
-                bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getBookTitle());
-                bundle.putString(Constants.BundleKey.BUNDLE_PRICE, book.getBookPrice());
-                bundle.putString(Constants.BundleKey.BUNDLE_DATE, book.getPurchaseDate());
+                bundle.putInt(Constants.BundleKey.BUNDLE_ID, book.getId());
+                bundle.putString(Constants.BundleKey.BUNDLE_IMAGE, book.getImage());
+                bundle.putString(Constants.BundleKey.BUNDLE_TITLE, book.getTitle());
+                bundle.putInt(Constants.BundleKey.BUNDLE_PRICE, book.getPrice());
+                String date = DateUtil.changeFormat(book.getPurchaseDate());
+                bundle.putString(Constants.BundleKey.BUNDLE_DATE, date);
                 edit.setArguments(bundle);
                 transaction.replace(R.id.fragment_container, edit);
 
@@ -72,8 +76,35 @@ public class BookListFragment extends Fragment {
         loadMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ToDo ListView更新処理
-                Log.i("Load More Button", "onClick");
+                Log.i("loadMoreButton", "onClick");
+
+                SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
+                int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+
+                BookApi api = Client.setUp().create(BookApi.class);
+                Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
+                page++;
+                enqueue(call);
+            }
+        });
+    }
+
+    private void enqueue(Call<FetchBookResponse> call) {
+        call.enqueue(new Callback<FetchBookResponse>() {
+            @Override
+            public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("onResponse", String.valueOf(response));
+                    return;
+                }
+                List<BookListItem> listItems = response.body().result;
+                CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
+                listView.setAdapter(adapter);
+                listView.setSelection(listItems.size());
+            }
+            @Override
+            public void onFailure(Call<FetchBookResponse> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
             }
         });
     }

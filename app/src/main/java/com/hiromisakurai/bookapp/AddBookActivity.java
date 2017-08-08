@@ -3,7 +3,9 @@ package com.hiromisakurai.bookapp;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,14 +13,22 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddBookActivity extends AppCompatActivity implements OnDateDialogClickListener {
     private static final int READ_REQUEST_CODE = 42;
@@ -72,12 +82,22 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
+                    return false;
                 }
+                Log.i("formValidation", "OK");
+                int priceInt = Integer.parseInt(priceStr);
+                Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                String decoded = EncodeImage.toBase64(bitmapImage);
+
+                SharedPreferences pref = getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
+                int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+                //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
+
+                BookApi api = Client.setUp().create(BookApi.class);
+                Call<JsonObject> call = api.addBook(new AddBookRequest(userId, decoded, titleStr, priceInt, dateStr));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -125,5 +145,23 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
                 }
             }
         }
+    }
+
+    private void enqueue(Call<JsonObject> call) {
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("onResponse", String.valueOf(response));
+                    return;
+                }
+                Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }

@@ -10,8 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
 
@@ -35,12 +38,14 @@ public class LoginActivity extends AppCompatActivity {
                 String errorMessageString = ValidationUtil.validateLogin(loginEmail, loginPassword, LoginActivity.this);
                 //Log.i("errorMessageString", String.valueOf(errorMessageString));
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
+                    return;
                 }
+                Log.i("loginValidation", "OK");
+                UserApi api = Client.setUp().create(UserApi.class);
+                Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
+                enqueue(call);
             }
         });
     }
@@ -54,5 +59,26 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         }
         AppLaunchChecker.onActivityCreate(this);
+    }
+
+    private void enqueue(Call<UserResponse> call) {
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("onResponse", String.valueOf(response));
+                    return;
+                }
+                String requestToken = response.body().getRequestToken();
+                int userId = response.body().getUserId();
+                SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }

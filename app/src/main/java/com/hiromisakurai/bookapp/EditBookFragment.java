@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,18 +23,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
-import static com.hiromisakurai.bookapp.R.id.bookImage;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditBookFragment extends Fragment implements OnDateDialogClickListener {
-
     private static final int READ_REQUEST_CODE = 42;
     private static final String IMAGE_TYPE = "image/*";
     private static final String DIALOG_KEY = "DatePicker";
+
     private ImageView imageView;
-    private Button saveImageButton;
+    private EditText titleEditText;
+    private EditText priceEditText;
+    private EditText dateEditText;
+    private int bookId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,25 +60,22 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_edit);
 
         Bundle bundle = getArguments();
-        Bitmap img = bundle.getParcelable(Constants.BundleKey.BUNDLE_IMAGE);
-        //Log.i("image bitmap", String.valueOf(img));
+        bookId = bundle.getInt(Constants.BundleKey.BUNDLE_ID);
         String title = bundle.getString(Constants.BundleKey.BUNDLE_TITLE);
-        String price = bundle.getString(Constants.BundleKey.BUNDLE_PRICE);
+        int price = bundle.getInt(Constants.BundleKey.BUNDLE_PRICE);
         String purchaseDate = bundle.getString(Constants.BundleKey.BUNDLE_DATE);
 
-        ImageView iv = (ImageView)view.findViewById(bookImage);
-        EditText titleEdit = (EditText)view.findViewById(R.id.bookTitleEditText);
-        EditText priceEdit = (EditText)view.findViewById(R.id.bookPriceEditText);
-        EditText dateEdit = (EditText)view.findViewById(R.id.purchaseDateEditText);
-
-        iv.setImageBitmap(img);
-        titleEdit.setText(title);
-        priceEdit.setText(price);
-        dateEdit.setText(purchaseDate);
-
-        saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
         imageView = (ImageView)view.findViewById(R.id.bookImage);
+        titleEditText = (EditText)view.findViewById(R.id.bookTitleEditText);
+        priceEditText = (EditText)view.findViewById(R.id.bookPriceEditText);
+        dateEditText  = (EditText)view.findViewById(R.id.purchaseDateEditText);
 
+        Glide.with(getActivity()).load(bundle.getString(Constants.BundleKey.BUNDLE_IMAGE)).into(imageView);
+        titleEditText.setText(title);
+        priceEditText.setText(String.valueOf(price));
+        dateEditText.setText(purchaseDate);
+
+        Button saveImageButton = (Button)view.findViewById(R.id.button_saveImage);
         saveImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,24 +99,26 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                ImageView bookIV = (ImageView)getActivity().findViewById(R.id.bookImage);
-                EditText titleET = (EditText)getActivity().findViewById(R.id.bookTitleEditText);
-                EditText priceET = (EditText)getActivity().findViewById(R.id.bookPriceEditText);
-                EditText dateET = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
-
-                Drawable bookImg = bookIV.getDrawable();
-                String titleStr = titleET.getText().toString();
-                String priceStr = priceET.getText().toString();
-                String dateStr = dateET.getText().toString();
+                Drawable bookImg = imageView.getDrawable();
+                String titleStr = titleEditText.getText().toString();
+                String priceStr = priceEditText.getText().toString();
+                String dateStr = dateEditText.getText().toString();
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(intent);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
+                    return false;
                 }
+                Log.i("formValidation", "OK");
+
+                int priceInt = Integer.parseInt(priceStr);
+                Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                String decoded = EncodeImage.toBase64(bitmapImage);
+
+                BookApi api = Client.setUp().create(BookApi.class);
+                Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -120,6 +130,7 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         }
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         EditText txtDate = (EditText)getActivity().findViewById(R.id.purchaseDateEditText);
@@ -155,5 +166,24 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         EditText editText = (EditText) getActivity().findViewById(R.id.purchaseDateEditText);
         String dateStr = year + "-" + (month + 1) + "-" + day;
         editText.setText(dateStr);
+    }
+
+    private void enqueue(Call<JsonObject> call) {
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("onResponse", String.valueOf(response));
+                    return;
+                }
+                Log.i("book_id", String.valueOf(response.body()));
+                Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
+                getFragmentManager().popBackStack();
+            }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }

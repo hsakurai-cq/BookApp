@@ -1,5 +1,6 @@
 package com.hiromisakurai.bookapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AccountActivity extends AppCompatActivity {
 
@@ -35,18 +40,20 @@ public class AccountActivity extends AppCompatActivity {
                 EditText passwordET = (EditText) findViewById(R.id.accountPasswordEditText);
                 EditText passwordConfirmET = (EditText) findViewById(R.id.accountPasswordConfirmEditText);
 
-                String signUpEmail = emailET.getText().toString();
-                String signUpPassword = passwordET.getText().toString();
-                String signUpPasswordConfirm = passwordConfirmET.getText().toString();
+                String email = emailET.getText().toString();
+                String password = passwordET.getText().toString();
+                String passwordConfirm = passwordConfirmET.getText().toString();
 
-                String errorMessageString  = ValidationUtil.validateAccount(signUpEmail, signUpPassword, signUpPasswordConfirm, AccountActivity.this);
+                String errorMessageString  = ValidationUtil.validateAccount(email, password, passwordConfirm, AccountActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    //Todo アカウント作成処理
-                    Log.i("Account validation", "OK");
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, AccountActivity.this);
                 }
+                Log.i("accountValidation", "OK");
+
+                UserApi api = Client.setUp().create(UserApi.class);
+                Call<UserResponse> call = api.signUp(new User(email, password));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -56,5 +63,26 @@ public class AccountActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void enqueue(Call<UserResponse> call) {
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (!response.isSuccessful()) {
+                    Log.i("onResponse", String.valueOf(response));
+                    return;
+                }
+                String requestToken = response.body().getRequestToken();
+                int userId = response.body().getUserId();
+                SharedPreferencesEditor.edit(requestToken, userId, AccountActivity.this);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.i("onFailure", String.valueOf(t));
+            }
+        });
     }
 }
