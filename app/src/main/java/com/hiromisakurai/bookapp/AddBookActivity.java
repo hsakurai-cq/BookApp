@@ -82,22 +82,22 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, AddBookActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Log.i("Add Book validation", "OK");
-                    int priceInt = Integer.parseInt(priceStr);
-                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
-                    String decoded = EncodeImage.toBase64(bitmapImage);
-
-                    SharedPreferences pref = getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
-                    int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
-                    //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
-
-                    BookApi api = Client.setUp().create(BookApi.class);
-                    Call<JsonObject> call = api.addBook(new AddBookRequest(userId, decoded, titleStr, priceInt, dateStr));
-                    enqueue(call);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, AddBookActivity.this);
+                    return false;
                 }
+                Log.i("Add Book validation", "OK");
+                int priceInt = Integer.parseInt(priceStr);
+                Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                String decoded = EncodeImage.toBase64(bitmapImage);
+
+                SharedPreferences pref = getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
+                int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
+                //String token = pref.getString(Constants.PrefKey.REQUEST_TOKEN, null);
+
+                BookApi api = Client.setUp().create(BookApi.class);
+                Call<JsonObject> call = api.addBook(new AddBookRequest(userId, decoded, titleStr, priceInt, dateStr));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -151,13 +151,13 @@ public class AddBookActivity extends AppCompatActivity implements OnDateDialogCl
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    Log.i("Success, book_id is ", String.valueOf(response.body()));
-                    Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
-                    finish();
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot Add Book", String.valueOf(response));
                     return;
                 }
-                Log.i("Cannot Add Book", String.valueOf(response));
+                Log.i("Success, book_id is ", String.valueOf(response.body()));
+                Toast.makeText(getBaseContext(), R.string.toast_success_add_book, Toast.LENGTH_SHORT).show();
+                finish();
             }
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {

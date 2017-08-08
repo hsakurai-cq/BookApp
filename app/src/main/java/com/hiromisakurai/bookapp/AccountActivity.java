@@ -46,15 +46,14 @@ public class AccountActivity extends AppCompatActivity {
 
                 String errorMessageString  = ValidationUtil.validateAccount(email, password, passwordConfirm, AccountActivity.this);
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Log.i("Account validation", "OK");
-
-                    UserApi api = Client.setUp().create(UserApi.class);
-                    Call<UserResponse> call = api.signUp(new User(email, password));
-                    enqueue(call);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, AccountActivity.this);
                 }
+                Log.i("Account validation", "OK");
+
+                UserApi api = Client.setUp().create(UserApi.class);
+                Call<UserResponse> call = api.signUp(new User(email, password));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -70,16 +69,16 @@ public class AccountActivity extends AppCompatActivity {
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()) {
-                    String requestToken = response.body().getRequestToken();
-                    int userId = response.body().getUserId();
-                    SharedPreferencesEditor.edit(requestToken, userId, AccountActivity.this);
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
-                    Log.i("move to", "Main Activity");
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot login", String.valueOf(response));
                     return;
                 }
-                Log.i("Cannot login", String.valueOf(response));
+                String requestToken = response.body().getRequestToken();
+                int userId = response.body().getUserId();
+                SharedPreferencesEditor.edit(requestToken, userId, AccountActivity.this);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
+                Log.i("move to", "Main Activity");
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {

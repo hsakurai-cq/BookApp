@@ -24,8 +24,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class BookListFragment extends Fragment {
-    private int page = 180;
-    ListView listView = getActivity().findViewById(R.id.list_book);
+    private int page = 181;
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +40,6 @@ public class BookListFragment extends Fragment {
 
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.toolbar_title_list);
 
-
         SharedPreferences pref = getActivity().getSharedPreferences("DataStore", MODE_PRIVATE);
         int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
@@ -49,6 +48,7 @@ public class BookListFragment extends Fragment {
         page++;
         enqueue(call);
 
+        listView  = (ListView) view.findViewById(R.id.list_book);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -81,7 +81,6 @@ public class BookListFragment extends Fragment {
                 SharedPreferences pref = getActivity().getSharedPreferences(Constants.PrefKey.DATA_STORE, MODE_PRIVATE);
                 int userId = pref.getInt(Constants.PrefKey.USER_ID, 0);
 
-                //API通信開始
                 BookApi api = Client.setUp().create(BookApi.class);
                 Call<FetchBookResponse> call = api.fetchBook(userId, "0-"+ String.valueOf(page));
                 page++;
@@ -94,14 +93,14 @@ public class BookListFragment extends Fragment {
         call.enqueue(new Callback<FetchBookResponse>() {
             @Override
             public void onResponse(Call<FetchBookResponse> call, Response<FetchBookResponse> response) {
-                if (response.isSuccessful()) {
-                    List<BookListItem> listItems = response.body().result;
-                    CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
-                    listView.setAdapter(adapter);
-                    listView.setSelection(listItems.size());
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot Fetch Book", String.valueOf(response));
                     return;
                 }
-                Log.i("Cannot Fetch Book", String.valueOf(response));
+                List<BookListItem> listItems = response.body().result;
+                CustomBookListAdapter adapter = new CustomBookListAdapter(getContext(), R.layout.custom_book_list, listItems);
+                listView.setAdapter(adapter);
+                listView.setSelection(listItems.size());
             }
             @Override
             public void onFailure(Call<FetchBookResponse> call, Throwable t) {

@@ -108,19 +108,19 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
 
                 String errorMessageString = ValidationUtil.validateForm(bookImg, titleStr, priceStr, dateStr, getActivity());
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Log.i("Edit Book validation", "OK");
-
-                    int priceInt = Integer.parseInt(priceStr);
-                    Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
-                    String decoded = EncodeImage.toBase64(bitmapImage);
-
-                    BookApi api = Client.setUp().create(BookApi.class);
-                    Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
-                    enqueue(call);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, getActivity());
+                    return false;
                 }
+                Log.i("Edit Book validation", "OK");
+
+                int priceInt = Integer.parseInt(priceStr);
+                Bitmap bitmapImage = ((BitmapDrawable) bookImg).getBitmap();
+                String decoded = EncodeImage.toBase64(bitmapImage);
+
+                BookApi api = Client.setUp().create(BookApi.class);
+                Call<JsonObject> call = api.editBook(bookId, new EditBookRequest(decoded, titleStr, priceInt, dateStr));
+                enqueue(call);
                 return true;
 
             case R.id.action_back:
@@ -174,15 +174,14 @@ public class EditBookFragment extends Fragment implements OnDateDialogClickListe
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if (response.isSuccessful()) {
-                    Log.i("Success, book_id is ", String.valueOf(response.body()));
-                    Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
-                    getFragmentManager().popBackStack();
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot Edit Book", String.valueOf(response));
                     return;
                 }
-                Log.i("Cannot Edit Book", String.valueOf(response));
+                Log.i("Success, book_id is ", String.valueOf(response.body()));
+                Toast.makeText(getContext(), R.string.toast_success_edit_book, Toast.LENGTH_SHORT).show();
+                getFragmentManager().popBackStack();
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.i("onFailure", String.valueOf(t));

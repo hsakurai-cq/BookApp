@@ -38,15 +38,14 @@ public class LoginActivity extends AppCompatActivity {
                 String errorMessageString = ValidationUtil.validateLogin(loginEmail, loginPassword, LoginActivity.this);
                 //Log.i("errorMessageString", String.valueOf(errorMessageString));
                 boolean valid = TextUtils.isEmpty(errorMessageString);
-                if (valid) {
-                    Log.i("Login validation", "OK");
-
-                    UserApi api = Client.setUp().create(UserApi.class);
-                    Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
-                    enqueue(call);
-                } else {
+                if (!valid) {
                     ErrorDialogUtil.showDialog(errorMessageString, LoginActivity.this);
+                    return;
                 }
+                Log.i("Login validation", "OK");
+                UserApi api = Client.setUp().create(UserApi.class);
+                Call<UserResponse> call = api.login(new User(loginEmail, loginPassword));
+                enqueue(call);
             }
         });
     }
@@ -66,15 +65,15 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                if (response.isSuccessful()) {
-                    String requestToken = response.body().getRequestToken();
-                    int userId = response.body().getUserId();
-                    SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
+                if (!response.isSuccessful()) {
+                    Log.i("Cannot login", String.valueOf(response));
                     return;
                 }
-                Log.i("Cannot login", String.valueOf(response));
+                String requestToken = response.body().getRequestToken();
+                int userId = response.body().getUserId();
+                SharedPreferencesEditor.edit(requestToken, userId, LoginActivity.this);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
             }
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
