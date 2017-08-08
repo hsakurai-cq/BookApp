@@ -1,5 +1,7 @@
 package com.hiromisakurai.bookapp;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +18,7 @@ public class DateUtil {
             Date date = dateFormat.parse(time);
             return new SimpleDateFormat(displayFormat, Locale.ENGLISH).format(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Log.e("DateUtil", "error", e);
         }
         return null;
     }
